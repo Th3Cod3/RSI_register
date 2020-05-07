@@ -1,28 +1,27 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="container-fluid">
+    <div class="row">
+      <product-container />
+      <cart-container />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import ProductContainer from "@/components/ProductContainer";
+import CartContainer from "@/components/CartContainer";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    ProductContainer,
+    CartContainer
   }
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.container-fluid {
+  margin-top: 2rem;
 }
 </style>
