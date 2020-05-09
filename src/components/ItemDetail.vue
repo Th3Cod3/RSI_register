@@ -1,16 +1,20 @@
 <template>
   <div class="row">
     <div class="col">
-      {{ item.name }}
+      {{ item.product }}
     </div>
     <div class="col">
       {{ item.barcode }}
     </div>
     <div class="col">
-      {{ item.type }}
+      {{ item.section }}
     </div>
     <div class="col">
-      <div class="btn-group mr-2" role="group" aria-label="First group">
+      <div
+        class="btn-group mr-2 float-right"
+        role="group"
+        aria-label="First group"
+      >
         <button type="button" @click="addItem" class="btn btn-secondary">
           <i class="fas fa-plus"></i>
         </button>
