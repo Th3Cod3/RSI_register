@@ -2,9 +2,10 @@
   <div class="col-md-4 col-sm-12">
     <div class="card">
       <div class="card-header">
-        <img
+        Cart
+        <!-- <img
           src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Planetshakers.png"
-        />
+        /> -->
       </div>
       <div class="card-body">
         <div v-if="items.length">
@@ -29,11 +30,15 @@
 import CartDetail from "@/components/CartDetail";
 export default {
   data: () => ({
-    items: [],
     loading: false
   }),
   components: {
     CartDetail
+  },
+  computed: {
+    items() {
+      return this.$store.state.selectedItems;
+    }
   }
 };
 </script>

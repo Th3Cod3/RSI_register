@@ -34,7 +34,7 @@ export default {
   }),
   methods: {
     sendData() {
-      this.$emit("send-data", {
+      this.$store.commit("filter", {
         productName: this.productName,
         barcode: this.barcode
       });

@@ -11,7 +11,7 @@
     </div>
     <div class="col">
       <div class="btn-group mr-2" role="group" aria-label="First group">
-        <button type="button" class="btn btn-secondary">
+        <button type="button" @click="addItem" class="btn btn-secondary">
           <i class="fas fa-plus"></i>
         </button>
       </div>
@@ -23,6 +23,10 @@
 export default {
   name: "ItemDetail",
   props: ["item"],
-  data: () => ({})
+  methods: {
+    addItem() {
+      this.$store.commit("addItemToCart", this.item);
+    }
+  }
 };
 </script>

@@ -2,10 +2,10 @@
   <div class="col-md-8 col-sm-12">
     <div class="card">
       <div class="card-header">
-        <search-menu @send-data="receiveData" />
+        <search-menu />
       </div>
       <div class="card-body">
-        <product-list-container :filter="filter" />
+        <product-list-container />
       </div>
     </div>
   </div>
@@ -17,20 +17,9 @@ import ProductListContainer from "@/components/ProductListContainer";
 
 export default {
   name: "ProductContainer",
-  data: () => ({
-    filter: {
-      productName: "",
-      barcode: ""
-    }
-  }),
   components: {
     SearchMenu,
     ProductListContainer
-  },
-  methods: {
-    receiveData(data) {
-      this.filter = data;
-    }
   }
 };
 </script>
