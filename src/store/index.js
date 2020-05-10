@@ -11,14 +11,37 @@ export default new Vuex.Store({
       productName: "",
       barcode: ""
     },
-    loadingItems: true
+    loadingItems: true,
+    login: {
+      user: "",
+      token: ""
+    },
+    loginForm: {
+      user: "",
+      password: ""
+    },
+    paidAmount: 0,
+    totalAmount: 0
   },
   getters: {
-    total() {}
+    total(state) {
+      let total = 0;
+      state.selectedItems.forEach(item => {
+        total = Number(item.price) * Number(item.amount) + total;
+      });
+      state.totalAmount = total;
+      return total;
+    },
+    change(state) {
+      return Number(state.paidAmount) - Number(state.totalAmount);
+    }
   },
   mutations: {
     filter(state, payload) {
       state.filter = payload;
+    },
+    paidAmount(state, payload) {
+      state.paidAmount = payload;
     },
     items(state, payload) {
       state.items = payload;

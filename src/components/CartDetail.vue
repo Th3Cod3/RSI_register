@@ -7,7 +7,7 @@
       {{ product.amount }}
     </div>
     <div class="col-3">
-      {{ product.price }}
+      {{ product.price | money }}
     </div>
   </div>
 </template>

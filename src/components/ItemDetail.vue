@@ -6,15 +6,18 @@
     <div class="col">
       {{ item.barcode }}
     </div>
-    <div class="col">
-      {{ item.section }}
+    <div class="col-2">
+      {{ item.price | money }}
     </div>
-    <div class="col">
+    <div class="col-2">
       <div
-        class="btn-group mr-2 float-right"
+        class="btn-group mr-2 float-right btn-group-sm"
         role="group"
         aria-label="First group"
       >
+        <button type="button" class="btn btn-info">
+          <i class="fas fa-info-circle"></i>
+        </button>
         <button type="button" @click="addItem" class="btn btn-secondary">
           <i class="fas fa-plus"></i>
         </button>
@@ -34,3 +37,20 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.row {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  border-radius: 0.25rem;
+}
+.row:nth-child(even) {
+  background: #e7e7e7;
+}
+.row:nth-child(odd) {
+  background: #ffffff;
+}
+.row:hover {
+  background: #cfcfcf;
+}
+</style>
