@@ -1,10 +1,10 @@
 <template>
-  <div class="col-md-8 col-sm-12">
-    <div class="card">
+  <div class="col-lg-8 col-md-12 d-print-none">
+    <div class="card product-container box-shadow">
       <div class="card-header">
         <search-menu />
       </div>
-      <div class="card-body">
+      <div class="card-body product-list-container">
         <product-list-container />
       </div>
     </div>
@@ -23,3 +23,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.product-container {
+  height: 90vh;
+}
+.product-list-container {
+  overflow: auto;
+}
+</style>

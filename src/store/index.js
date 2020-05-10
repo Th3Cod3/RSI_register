@@ -11,14 +11,46 @@ export default new Vuex.Store({
       productName: "",
       barcode: ""
     },
-    loadingItems: true
+    loadingItems: true,
+    login: {
+      user: "",
+      token: ""
+    },
+    loginForm: {
+      user: "",
+      password: ""
+    },
+    paidAmount: 0,
+    totalAmount: 0,
+    successLogin: false
   },
   getters: {
-    total() {}
+    total(state) {
+      let total = 0;
+      state.selectedItems.forEach(item => {
+        total = Number(item.price) * Number(item.amount) + total;
+      });
+      state.totalAmount = total;
+      return total;
+    },
+    change(state) {
+      return Number(state.paidAmount) - Number(state.totalAmount);
+    }
   },
   mutations: {
     filter(state, payload) {
       state.filter = payload;
+    },
+    inputLogin(state, payload) {
+      state.loginForm = payload;
+    },
+    paidAmount(state, payload) {
+      state.paidAmount = payload;
+    },
+    login(state, payload) {
+      state.successLogin = true;
+      state.loginForm.password = "";
+      state.login = payload;
     },
     items(state, payload) {
       state.items = payload;
@@ -36,7 +68,14 @@ export default new Vuex.Store({
           ...payload
         });
       }
+    },
+    changeItemAmount(state, payload) {
+      let index = state.selectedItems.findIndex(item => item.id === payload.id);
+      if (payload.amount == 0) {
+        state.selectedItems.splice(index, 1);
+      } else {
+        state.selectedItems[index].amount = payload.amount;
+      }
     }
-  },
-  actions: {}
+  }
 });
