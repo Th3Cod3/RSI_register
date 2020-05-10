@@ -3,10 +3,10 @@
     <div class="col">
       {{ item.product }}
     </div>
-    <div class="col">
+    <div class="col text-right">
       {{ item.barcode }}
     </div>
-    <div class="col-2">
+    <div class="col-2 text-right">
       {{ item.price | money }}
     </div>
     <div class="col-2">

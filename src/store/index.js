@@ -21,7 +21,8 @@ export default new Vuex.Store({
       password: ""
     },
     paidAmount: 0,
-    totalAmount: 0
+    totalAmount: 0,
+    successLogin: false
   },
   getters: {
     total(state) {
@@ -40,8 +41,16 @@ export default new Vuex.Store({
     filter(state, payload) {
       state.filter = payload;
     },
+    inputLogin(state, payload) {
+      state.loginForm = payload;
+    },
     paidAmount(state, payload) {
       state.paidAmount = payload;
+    },
+    login(state, payload) {
+      state.successLogin = true;
+      state.loginForm.password = "";
+      state.login = payload;
     },
     items(state, payload) {
       state.items = payload;
@@ -59,7 +68,14 @@ export default new Vuex.Store({
           ...payload
         });
       }
+    },
+    changeItemAmount(state, payload) {
+      let index = state.selectedItems.findIndex(item => item.id === payload.id);
+      if (payload.amount == 0) {
+        state.selectedItems.splice(index, 1);
+      } else {
+        state.selectedItems[index].amount = payload.amount;
+      }
     }
-  },
-  actions: {}
+  }
 });

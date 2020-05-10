@@ -20,8 +20,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .container-fluid {
   margin-top: 2rem;
+}
+.box-shadow {
+  box-shadow: 0 0 8px 3px #b3b3b3;
 }
 </style>
