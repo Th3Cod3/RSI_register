@@ -70,6 +70,9 @@ export default new Vuex.Store({
     filter(state, payload) {
       state.filter = payload;
     },
+    filterBarcode(state, payload) {
+      state.filter.barcode = payload;
+    },
     inputLogin(state, payload) {
       state.loginForm = payload;
     },
@@ -97,12 +100,18 @@ export default new Vuex.Store({
         date: ""
       };
     },
+    clearSearch(state) {
+      state.filter = {
+        productName: "",
+        barcode: ""
+      };
+    },
     addItemToCart(state, payload) {
       let item = state.selectedItems.findIndex(item => item.id === payload.id);
       if (item !== -1) {
         state.selectedItems[item].amount++;
       } else {
-        state.selectedItems.push({
+        state.selectedItems.unshift({
           amount: 1,
           ...payload
         });

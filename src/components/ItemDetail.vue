@@ -14,7 +14,7 @@
     </div>
     <div class="col-2">
       <div
-        class="btn-group mr-2 float-right btn-group-sm"
+        class="btn-group mr-2 float-right"
         role="group"
         aria-label="First group"
       >
