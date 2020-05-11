@@ -36,16 +36,36 @@
                 </div>
               </div>
             </span>
-            <span class="float-right total text-right">
-              Totaal {{ total | money }}
+            <span class="float-right text-right total-summary">
+              <span>Totaal {{ totalFullPrice | money }}</span>
+              <br /><span> Korting {{ totalDiscount | money }}</span>
+              <br /><span class="total">
+                Eindtotaal {{ total | roundMoney }}</span
+              >
               <br />
-              <span class="d-print-none">Restitutie {{ change | money }}</span>
+              <span class="d-print-none total"
+                >Restitutie {{ change | roundMoney }}</span
+              >
             </span>
           </div>
         </div>
-        <button type="button" class="btn btn-success d-print-none">
+        <button
+          type="button"
+          class="btn btn-success d-print-none btn-block"
+          v-if="successLogin && !saved"
+          @click="saveInvoice"
+          :disabled="loading"
+        >
           Checkout
         </button>
+        <div v-else-if="successLogin && saved" class="btn-group">
+          <button type="button" class="btn btn-primary" onclick="print()">
+            Afdrukken
+          </button>
+          <button type="button" class="btn btn-danger" @click="clearCart">
+            Clear
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +78,8 @@ import LoginButton from "@/components/LoginButton";
 export default {
   data: () => ({
     loading: false,
-    paidAmount: 0
+    paidAmount: 0,
+    saved: false
   }),
   components: {
     CartDetail,
@@ -71,6 +92,15 @@ export default {
     total() {
       return this.$store.getters.total;
     },
+    totalFullPrice() {
+      return this.$store.getters.totalFullPrice;
+    },
+    totalDiscount() {
+      return this.$store.getters.totalDiscount;
+    },
+    successLogin() {
+      return this.$store.state.successLogin;
+    },
     change() {
       return this.$store.getters.change;
     }
@@ -78,6 +108,42 @@ export default {
   methods: {
     updatePaidAmount() {
       this.$store.commit("paidAmount", this.paidAmount);
+    },
+    saveInvoice() {
+      this.loading = true;
+      let formData = new FormData();
+      formData.set("token", this.$store.state.login.token);
+      formData.set("user", this.$store.state.login.user);
+      formData.set("total", this.$store.state.totalAmount);
+      let count = 0;
+      this.$store.state.selectedItems.forEach(item => {
+        formData.set(`items[${count}][item_id]`, item.id);
+        formData.set(`items[${count}][amount]`, item.amount);
+        count++;
+      });
+      fetch("https://rip.rsiaruba.com/api/invoice", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.invoice_number) {
+            this.saved = true;
+            this.$store.commit("invoiceInfo", {
+              invoiceNumber: data.invoice_number,
+              date: this.date
+            });
+          } else {
+            alert("fail");
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    clearCart() {
+      this.saved = false;
+      this.$store.commit("restoreInvoice");
     }
   }
 };
@@ -85,8 +151,11 @@ export default {
 
 <style scoped>
 .total {
-  font-size: 1.5rem;
   font-weight: 500;
+  font-size: 1.5rem;
+}
+.total-summary {
+  font-size: 1.25rem;
 }
 .cart-container {
   max-height: 90vh;

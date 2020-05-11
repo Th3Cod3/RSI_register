@@ -20,20 +20,49 @@ export default new Vuex.Store({
       user: "",
       password: ""
     },
+    invoiceInfo: {
+      invoiceNumber: "",
+      date: ""
+    },
     paidAmount: 0,
     totalAmount: 0,
     successLogin: false
   },
   getters: {
-    total(state) {
+    totalFullPrice(state) {
       let total = 0;
       state.selectedItems.forEach(item => {
         total = Number(item.price) * Number(item.amount) + total;
       });
+      return total;
+    },
+    total(state) {
+      let total = 0;
+      state.selectedItems.forEach(item => {
+        total =
+          Number(item.price) *
+            (Number(100 - item.discount) / 100) *
+            Number(item.amount) +
+          total;
+      });
       state.totalAmount = total;
       return total;
     },
+    totalDiscount(state) {
+      let total = 0;
+      state.selectedItems.forEach(item => {
+        total =
+          Number(item.price) *
+            (Number(item.discount) / 100) *
+            Number(item.amount) +
+          total;
+      });
+      return total;
+    },
     change(state) {
+      if (state.paidAmount < state.totalAmount) {
+        return 0;
+      }
       return Number(state.paidAmount) - Number(state.totalAmount);
     }
   },
@@ -47,6 +76,9 @@ export default new Vuex.Store({
     paidAmount(state, payload) {
       state.paidAmount = payload;
     },
+    invoiceInfo(state, payload) {
+      state.invoiceInfo = payload;
+    },
     login(state, payload) {
       state.successLogin = true;
       state.loginForm.password = "";
@@ -57,6 +89,13 @@ export default new Vuex.Store({
     },
     loadingItems(state, payload) {
       state.loadingItems = payload;
+    },
+    restoreInvoice(state) {
+      state.selectedItems = [];
+      state.invoiceInfo = {
+        invoiceNumber: "",
+        date: ""
+      };
     },
     addItemToCart(state, payload) {
       let item = state.selectedItems.findIndex(item => item.id === payload.id);
