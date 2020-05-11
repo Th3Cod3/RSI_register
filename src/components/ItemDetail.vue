@@ -18,11 +18,8 @@
         role="group"
         aria-label="First group"
       >
-        <button type="button" class="btn btn-info">
-          <i class="fas fa-info-circle"></i>
-        </button>
         <button type="button" @click="addItem" class="btn btn-secondary">
-          <i class="fas fa-plus"></i>
+          <i class="fas fa-plus fa-2x"></i>
         </button>
       </div>
     </div>
