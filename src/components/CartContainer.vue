@@ -4,7 +4,12 @@
       <div class="card-header">
         Cart
         <span class="float-right d-print-none">
-          <login-button />
+          <div class="btn-group">
+            <button type="button" class="btn btn-danger" @click="clearCart">
+              Clear
+            </button>
+            <login-button />
+          </div>
         </span>
       </div>
       <div class="card-body cart-items-container">
@@ -52,18 +57,15 @@
         <button
           type="button"
           class="btn btn-success d-print-none btn-block"
-          v-if="successLogin && !saved"
+          v-if="successLogin && !saved && items.length > 0"
           @click="saveInvoice"
           :disabled="loading"
         >
           Checkout
         </button>
-        <div v-else-if="successLogin && saved" class="btn-group">
+        <div v-else-if="successLogin && saved" class="btn-group d-print-none">
           <button type="button" class="btn btn-primary" onclick="print()">
             Afdrukken
-          </button>
-          <button type="button" class="btn btn-danger" @click="clearCart">
-            Clear
           </button>
         </div>
       </div>
@@ -116,7 +118,7 @@ export default {
       formData.set("user", this.$store.state.login.user);
       formData.set("total", this.$store.state.totalAmount);
       let count = 0;
-      this.$store.state.selectedItems.forEach(item => {
+      this.items.forEach(item => {
         formData.set(`items[${count}][item_id]`, item.id);
         formData.set(`items[${count}][amount]`, item.amount);
         count++;
@@ -131,7 +133,7 @@ export default {
             this.saved = true;
             this.$store.commit("invoiceInfo", {
               invoiceNumber: data.invoice_number,
-              date: this.date
+              date: data.date
             });
           } else {
             alert("fail");

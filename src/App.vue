@@ -3,7 +3,7 @@
     <div class="d-print-block d-none">
       <div>
         <img
-          src="https://rsiaruba.com/rsi_logo.png"
+          src="https://rsiaruba.com/rsi_header.png"
           alt="Logo RSI"
           class="logo"
         />
@@ -51,7 +51,7 @@ export default {
 }
 
 .logo {
-  width: 250px;
+  width: 100%;
 }
 
 .invoice-info {
