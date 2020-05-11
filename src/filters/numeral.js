@@ -14,7 +14,7 @@ numeral.register("locale", "aw", {
     return number === 1 ? "st" : "de";
   },
   currency: {
-    symbol: "Afl. "
+    symbol: "Afl."
   }
 });
 
@@ -22,10 +22,24 @@ numeral.locale("aw");
 
 const dollarFilter = function(value) {
   if (!value) {
-    return "Afl. 0.00";
+    return numeral(0).format("0.00 $");
   }
 
-  return numeral(value).format("$0.00");
+  return numeral(value).format("0.00 $");
 };
 
-export { dollarFilter };
+const dollarRoundFilter = function(value) {
+  if (!value) {
+    return numeral(0).format("0.00 $");
+  }
+  let complement = value % 0.05;
+  if (complement > 0.025) {
+    value += 0.05 - complement;
+  } else {
+    value -= complement;
+  }
+
+  return numeral(value).format("0.00 $");
+};
+
+export { dollarFilter, dollarRoundFilter };

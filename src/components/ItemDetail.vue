@@ -9,6 +9,9 @@
     <div class="col-2 text-right">
       {{ item.price | money }}
     </div>
+    <div class="col-2 text-right">
+      {{ item.discount }}
+    </div>
     <div class="col-2">
       <div
         class="btn-group mr-2 float-right btn-group-sm"
