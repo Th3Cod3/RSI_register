@@ -17,6 +17,7 @@
         <input
           @input="sendData"
           type="text"
+          id="barcode"
           class="form-control"
           v-model="barcode"
         />
@@ -54,6 +55,7 @@ export default {
     clearSearch() {
       this.productName = "";
       this.barcode = "";
+      this.$el.querySelector("input#barcode").focus();
       this.$store.commit("clearSearch");
     },
     removeBarcodeSides() {
