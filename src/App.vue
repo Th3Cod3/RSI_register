@@ -9,8 +9,23 @@
         />
       </div>
       <div class="invoice-info">
-        <span>{{ invoiceNumber }}</span>
-        <span class="float-right">{{ date }}</span>
+        <span>Factuurnummer: {{ invoiceNumber }}</span>
+        <span class="float-right">Factuurdatum: {{ date }}</span>
+      </div>
+      <div class="my-2">
+        <table class="table table-sm table-borderless">
+          <tr>
+            <td>Verkoopmethode:</td>
+            <td class="font-weight-bold">Openbare verkoop</td>
+          </tr>
+          <tr>
+            <td>Plaats van verkoop:</td>
+            <td class="font-weight-bold">
+              L.G. smith boulevard # 152, Oranjestad, Aruba (KH Super Center
+              N.V.)
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="row">

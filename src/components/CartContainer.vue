@@ -2,7 +2,7 @@
   <div class="col-lg-4 col-md-12">
     <div class="card cart-container box-shadow">
       <div class="card-header">
-        Cart
+        Productlijst
         <span class="float-right d-print-none">
           <div class="btn-group">
             <button type="button" class="btn btn-danger" @click="clearCart">
@@ -14,11 +14,25 @@
       </div>
       <div class="card-body cart-items-container">
         <div v-if="items.length">
-          <cart-detail
-            v-for="item in items"
-            :key="'c' + item.id"
-            :product="item"
-          />
+          <table class="table table-sm">
+            <thead class="thead-dark">
+              <tr>
+                <td>Omschrijving</td>
+                <td class="d-print-table-cell d-none text-right">Shapprijs</td>
+                <td class="d-print-table-cell d-none text-right">Korting</td>
+                <td class="d-print-table-cell d-none text-right">
+                  Verkoopprijs
+                </td>
+                <td class="text-right">Hoveelheid</td>
+                <td class="text-right">Totale verkoopprijs</td>
+              </tr>
+            </thead>
+            <cart-detail
+              v-for="item in items"
+              :key="'c' + item.id"
+              :product="item"
+            />
+          </table>
         </div>
         <div v-else>
           Empty

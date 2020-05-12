@@ -1,13 +1,17 @@
 <template>
-  <div class="row">
-    <div class="col-lg-7 col-md-6">{{ product.product }}</div>
-    <div class="col-1 text-right d-none d-print-flex">
+  <tr>
+    <td>{{ product.product }}</td>
+
+    <td class="text-right d-none d-print-table-cell">
+      {{ product.price | money }}
+    </td>
+    <td class="text-right d-none d-print-table-cell">
       {{ product.discount }}%
-    </div>
-    <div class="col-2 text-right d-none d-print-flex">
-      {{ -((product.discount / 100) * product.price) | money }}
-    </div>
-    <div class="col-lg-2 col-md-1 text-right">
+    </td>
+    <td class="text-right d-none d-print-table-cell">
+      {{ -((product.discount / 100) * product.price - product.price) | money }}
+    </td>
+    <td class="text-right">
       <span v-show="!changeAmount" @click="changeAmountToggle">{{
         product.amount
       }}</span>
@@ -21,9 +25,9 @@
           />
         </div>
       </span>
-    </div>
-    <div class="col-lg-3 col-md-2 text-right">{{ product.price | money }}</div>
-  </div>
+    </td>
+    <td class="text-right">{{ (product.price * product.amount) | money }}</td>
+  </tr>
 </template>
 
 <script>
