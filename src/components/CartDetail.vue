@@ -26,7 +26,13 @@
         </div>
       </span>
     </td>
-    <td class="text-right">{{ (product.price * product.amount) | money }}</td>
+    <td class="text-right">
+      {{
+        (product.amount -
+          ((product.discount / 100) * product.price - product.price))
+          | money
+      }}
+    </td>
   </tr>
 </template>
 

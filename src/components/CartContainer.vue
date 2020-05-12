@@ -179,4 +179,10 @@ export default {
 .cart-items-container {
   overflow-y: auto;
 }
+
+@media print {
+  .cart-container {
+    max-height: 100%;
+  }
+}
 </style>
