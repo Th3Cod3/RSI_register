@@ -28,8 +28,8 @@
     </td>
     <td class="text-right">
       {{
-        (product.amount -
-          ((product.discount / 100) * product.price - product.price))
+        (product.amount *
+          (product.price - (product.discount / 100) * product.price))
           | money
       }}
     </td>
