@@ -1,17 +1,17 @@
 <template>
-  <div class="col-lg-4 col-md-12">
-    <div class="card cart-container box-shadow">
-      <div class="card-header">
+  <b-col lg="4" md="12">
+    <b-card no-body class="cart-container box-shadow">
+      <b-card-header>
         Productlijst
         <span class="float-right d-print-none">
-          <div class="btn-group">
-            <button type="button" class="btn btn-danger" @click="clearCart">
+          <b-button-group>
+            <b-button type="button" varient="danger" @click="clearCart">
               Clear
-            </button>
-          </div>
+            </b-button>
+          </b-button-group>
         </span>
-      </div>
-      <div class="card-body cart-items-container">
+      </b-card-header>
+      <b-card-body class="cart-items-container">
         <div v-if="items.length">
           <table class="table table-sm">
             <thead class="thead-dark">
@@ -36,8 +36,8 @@
         <div v-else>
           Empty
         </div>
-      </div>
-      <div class="card-footer">
+      </b-card-body>
+      <b-card-footer>
         <div class="row">
           <div class="col-12">
             <span class="float-left">
@@ -81,9 +81,9 @@
             Afdrukken
           </button>
         </div>
-      </div>
-    </div>
-  </div>
+      </b-card-footer>
+    </b-card>
+  </b-col>
 </template>
 
 <script>
@@ -171,7 +171,7 @@ export default {
   font-size: 1.25rem;
 }
 .cart-container {
-  max-height: 90vh;
+  max-height: 88vh;
 }
 .cart-items-container {
   overflow-y: auto;

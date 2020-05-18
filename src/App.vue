@@ -1,12 +1,20 @@
 <template>
-  <div class="container-fluid">
-    <router-view />
+  <div>
+    <top-header />
+    <b-container fluid>
+      <router-view />
+    </b-container>
   </div>
 </template>
 
 <script>
+import TopHeader from "@/components/Header/TopHeader";
+
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    TopHeader
+  }
 };
 </script>
 

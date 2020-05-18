@@ -1,17 +1,17 @@
 <template>
-  <div class="row">
-    <div v-if="!loadingItems" class="col-12">
+  <b-row>
+    <b-col v-if="!loadingItems" cols="12">
       <item-detail
         v-for="item in items"
         :item="item"
         :key="item.id"
         v-show="filterData(item)"
       />
-    </div>
-    <div v-else class="col-12">
+    </b-col>
+    <b-col v-else cols="12">
       <i class="fas fa-spinner fa-pulse"></i>
-    </div>
-  </div>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

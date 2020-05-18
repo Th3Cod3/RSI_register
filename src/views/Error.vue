@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="error-container">
     <div class="title">ERROR</div>
     <div class="suggetion">
       Click <router-link to="/">here</router-link> to go back
@@ -13,7 +13,7 @@
   font-weight: bold;
 }
 
-.container {
+.error-container {
   display: flex;
   justify-content: center;
   align-items: center;

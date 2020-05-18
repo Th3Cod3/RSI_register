@@ -71,6 +71,14 @@ export default new Vuex.Store({
     filter(state, payload) {
       state.filter = payload;
     },
+    logout(state) {
+      state.successLogin = false;
+      state.login = {
+        user: "",
+        token: "",
+        permissions: {}
+      };
+    },
     filterBarcode(state, payload) {
       state.filter.barcode = payload;
     },

@@ -1,14 +1,14 @@
 <template>
-  <div class="col-lg-8 col-md-12 d-print-none">
-    <div class="card product-container box-shadow">
-      <div class="card-header">
+  <b-col md="12" lg="8" class="d-print-none">
+    <b-card no-body class="product-container box-shadow">
+      <b-card-header>
         <search-menu />
-      </div>
-      <div class="card-body product-list-container">
+      </b-card-header>
+      <b-card-body class="product-list-container">
         <product-list-container />
-      </div>
-    </div>
-  </div>
+      </b-card-body>
+    </b-card>
+  </b-col>
 </template>
 
 <script>

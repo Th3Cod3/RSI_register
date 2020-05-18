@@ -1,29 +1,25 @@
 <template>
-  <div class="row">
-    <div class="col">
+  <b-row>
+    <b-col>
       {{ item.name }}
-    </div>
-    <div class="col text-right">
+    </b-col>
+    <b-col>
       {{ item.barcode }}
-    </div>
-    <div class="col-2 text-right">
+    </b-col>
+    <b-col cols="2" class="text-right">
       {{ item.price | money }}
-    </div>
-    <div class="col-2 text-right">
+    </b-col>
+    <b-col cols="2">
       {{ item.discount }}
-    </div>
-    <div class="col-2">
-      <div
-        class="btn-group mr-2 float-right"
-        role="group"
-        aria-label="First group"
-      >
-        <button type="button" @click="addItem" class="btn btn-secondary">
+    </b-col>
+    <b-col cols="2">
+      <b-button-group class="mr-2 float-right">
+        <b-button variant="primary" type="button" @click="addItem">
           <i class="fas fa-plus fa-2x"></i>
-        </button>
-      </div>
-    </div>
-  </div>
+        </b-button>
+      </b-button-group>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

@@ -28,10 +28,10 @@
         </table>
       </div>
     </div>
-    <div class="row">
+    <b-row>
       <product-container />
       <cart-container />
-    </div>
+    </b-row>
   </div>
 </template>
 
