@@ -14,7 +14,8 @@ export default new Vuex.Store({
     loadingItems: true,
     login: {
       user: "",
-      token: ""
+      token: "",
+      permissions: {}
     },
     loginForm: {
       user: "",

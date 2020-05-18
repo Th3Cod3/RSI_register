@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col">
-      {{ item.product }}
+      {{ item.name }}
     </div>
     <div class="col text-right">
       {{ item.barcode }}

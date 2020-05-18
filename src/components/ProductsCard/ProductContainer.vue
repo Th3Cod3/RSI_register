@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import SearchMenu from "@/components/SearchMenu";
-import ProductListContainer from "@/components/ProductListContainer";
+import SearchMenu from "@/components/ProductsCard/SearchMenu";
+import ProductListContainer from "@/components/ProductsCard/ProductListContainer";
 
 export default {
   name: "ProductContainer",

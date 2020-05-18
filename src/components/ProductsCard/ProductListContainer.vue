@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import ItemDetail from "@/components/ItemDetail";
+import ItemDetail from "@/components/ProductsCard/ItemDetail";
 
 export default {
   name: "ProductListContainer",
@@ -48,7 +48,7 @@ export default {
       let result = false;
       if (
         (this.filter.productName === "" ||
-          item.product
+          item.name
             .toLowerCase()
             .match(this.filter.productName.toLowerCase())) &&
         (this.filter.barcode === "" ||

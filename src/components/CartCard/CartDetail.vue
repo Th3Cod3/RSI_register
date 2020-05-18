@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ product.product }}</td>
+    <td>{{ product.name }}</td>
 
     <td class="text-right d-none d-print-table-cell">
       {{ product.price | money }}

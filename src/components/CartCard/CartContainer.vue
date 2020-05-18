@@ -8,7 +8,6 @@
             <button type="button" class="btn btn-danger" @click="clearCart">
               Clear
             </button>
-            <login-button />
           </div>
         </span>
       </div>
@@ -88,8 +87,7 @@
 </template>
 
 <script>
-import CartDetail from "@/components/CartDetail";
-import LoginButton from "@/components/LoginButton";
+import CartDetail from "@/components/CartCard/CartDetail";
 
 export default {
   data: () => ({
@@ -98,8 +96,7 @@ export default {
     saved: false
   }),
   components: {
-    CartDetail,
-    LoginButton
+    CartDetail
   },
   computed: {
     items() {
