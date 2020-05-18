@@ -158,8 +158,12 @@ export default {
         });
     },
     clearCart() {
-      this.saved = false;
-      this.$store.commit("restoreInvoice");
+      this.$confirm("Are you sure you want to clear?", "Clear?", "warning", {
+        confirmButtonText: "Yes"
+      }).then(() => {
+        this.saved = false;
+        this.$store.commit("restoreInvoice");
+      });
     }
   }
 };
