@@ -5,7 +5,12 @@
         Productlijst
         <span class="float-right d-print-none">
           <b-button-group>
-            <b-button type="button" varient="danger" @click="clearCart">
+            <b-button
+              type="button"
+              varient="danger"
+              @click="clearCart"
+              :disabled="!items.length"
+            >
               Clear
             </b-button>
           </b-button-group>
