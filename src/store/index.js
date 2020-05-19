@@ -27,7 +27,7 @@ export default new Vuex.Store({
     },
     paidAmount: 0,
     totalAmount: 0,
-    successLogin: false
+    isLogin: false
   },
   getters: {
     totalFullPrice(state) {
@@ -72,7 +72,7 @@ export default new Vuex.Store({
       state.filter = payload;
     },
     logout(state) {
-      state.successLogin = false;
+      state.isLogin = false;
       state.login = {
         user: "",
         token: "",
@@ -92,7 +92,7 @@ export default new Vuex.Store({
       state.invoiceInfo = payload;
     },
     login(state, payload) {
-      state.successLogin = true;
+      state.isLogin = true;
       state.loginForm.password = "";
       state.login = payload;
     },

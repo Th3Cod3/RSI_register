@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
 .product-container {
-  height: 90vh;
+  height: 88vh;
 }
 .product-list-container {
   overflow: auto;

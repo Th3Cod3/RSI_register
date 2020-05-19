@@ -75,13 +75,13 @@
         <button
           type="button"
           class="btn btn-success d-print-none btn-block"
-          v-if="successLogin && !saved && items.length > 0"
+          v-if="isLogin && !saved && items.length > 0"
           @click="saveInvoice"
           :disabled="loading"
         >
           Checkout
         </button>
-        <div v-else-if="successLogin && saved" class="btn-group d-print-none">
+        <div v-else-if="isLogin && saved" class="btn-group d-print-none">
           <button type="button" class="btn btn-primary" onclick="print()">
             Afdrukken
           </button>
@@ -116,8 +116,8 @@ export default {
     totalDiscount() {
       return this.$store.getters.totalDiscount;
     },
-    successLogin() {
-      return this.$store.state.successLogin;
+    isLogin() {
+      return this.$store.state.isLogin;
     },
     change() {
       return this.$store.getters.change;
