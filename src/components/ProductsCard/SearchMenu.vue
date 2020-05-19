@@ -1,41 +1,45 @@
 <template>
-  <div class="row">
-    <div class="col-xl-3 col-md-6 col-sm-12">
-      <div class="form-group">
-        <label>Product name</label>
+  <b-row>
+    <b-col xl="3" md="6" sm="12">
+      <b-form-group label="Product name">
         <input
           @input="sendData"
           type="text"
           class="form-control"
           v-model="productName"
         />
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-sm-12">
-      <div class="form-group">
-        <label>Barcode</label>
-        <input
+      </b-form-group>
+    </b-col>
+    <b-col xl="3" md="6" sm="12">
+      <b-form-group label="Barcode" label-for="barcode">
+        <b-form-input
           @input="sendData"
           type="text"
           id="barcode"
           class="form-control"
           v-model="barcode"
         />
-      </div>
-    </div>
-    <div class="col">
-      <button class="float-right" @click="clearSearch" @touch="clearSearch">
+      </b-form-group>
+    </b-col>
+    <b-col>
+      <b-button
+        variant="outline-secondary"
+        class="float-right"
+        @click="clearSearch"
+        @touch="clearSearch"
+      >
         <i class="far fa-times-circle fa-2x"></i>
-      </button>
-      <button
+      </b-button>
+      <b-button
+        variant="outline-secondary"
         class="float-right mx-2"
         @click="removeBarcodeSides"
         @touch="removeBarcodeSides"
       >
         <i class="fas fa-barcode fa-2x"></i>
-      </button>
-    </div>
-  </div>
+      </b-button>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

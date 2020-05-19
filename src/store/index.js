@@ -14,7 +14,8 @@ export default new Vuex.Store({
     loadingItems: true,
     login: {
       user: "",
-      token: ""
+      token: "",
+      permissions: {}
     },
     loginForm: {
       user: "",
@@ -69,6 +70,14 @@ export default new Vuex.Store({
   mutations: {
     filter(state, payload) {
       state.filter = payload;
+    },
+    logout(state) {
+      state.successLogin = false;
+      state.login = {
+        user: "",
+        token: "",
+        permissions: {}
+      };
     },
     filterBarcode(state, payload) {
       state.filter.barcode = payload;
