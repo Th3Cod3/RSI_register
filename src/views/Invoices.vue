@@ -14,7 +14,20 @@
 </template>
 
 <script>
-export default {};
+import apiService from "@/services/api-service.js";
+
+export default {
+  created() {
+    apiService
+      .getInvoices()
+      .then(data => {
+        this.$store.commit("invoices", data);
+      })
+      .finally(() => {
+        this.$store.commit("loadingItems", false);
+      });
+  }
+};
 </script>
 
 <style></style>

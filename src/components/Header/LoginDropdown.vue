@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import apiService from "@/services/api-service.js";
+
 export default {
   name: "LoginDropdown",
   data: () => ({
@@ -48,22 +50,17 @@ export default {
       let formData = new FormData();
       formData.set("password", this.password);
       formData.set("user", this.user);
-      fetch("https://rip.rsiaruba.com/api/login", {
-        method: "POST",
-        body: formData
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.api_token) {
-            this.password = "";
-            this.$store.commit("login", {
-              token: data.api_token,
-              user: this.user
-            });
-          } else {
-            alert("fail");
-          }
-        });
+      apiService.login(formData).then(data => {
+        if (data.api_token) {
+          this.password = "";
+          this.$store.commit("login", {
+            token: data.api_token,
+            user: this.user
+          });
+        } else {
+          alert("fail");
+        }
+      });
     }
   }
 };

@@ -12,7 +12,7 @@
     </td>
     <td class="text-right">
       <span v-show="!changeAmount" @click="changeAmountToggle">{{
-        product.amount
+        product.quantity
       }}</span>
       <span v-show="changeAmount">
         <div class="d-print-none">
@@ -27,7 +27,7 @@
     </td>
     <td class="text-right">
       {{
-        (product.amount *
+        (product.quantity *
           (product.price - (product.discount / 100) * product.price))
           | money
       }}
@@ -43,7 +43,7 @@ export default {
     inputAmount: 0
   }),
   created() {
-    this.inputAmount = this.product.amount;
+    this.inputAmount = this.product.quantity;
   },
   methods: {
     changeAmountToggle() {
@@ -54,9 +54,9 @@ export default {
     },
     updateAmount() {
       this.changeAmountToggle();
-      this.$store.commit("changeItemAmount", {
+      this.$store.commit("changeItemQuantity", {
         id: this.product.id,
-        amount: this.inputAmount
+        quantity: this.inputAmount
       });
     }
   }
@@ -64,12 +64,12 @@ export default {
 </script>
 
 <style scoped>
-.amount {
+.quantity {
   width: 100%;
   border: none;
   border-bottom: 1px solid black;
 }
-.amount:focus {
+.quantity:focus {
   outline: none;
 }
 </style>
