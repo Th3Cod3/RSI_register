@@ -1,14 +1,11 @@
 <template>
   <b-card no-body>
     <b-card-header>
+      Facturen
       <!-- Invoices Filter -->
     </b-card-header>
     <b-card-body>
-      <b-row>
-        <b-col>Factuurnummer</b-col>
-        <b-col>Total</b-col>
-        <b-col>Datum</b-col>
-      </b-row>
+      <b-table striped hover :fields="fields" :items="invoices"></b-table>
     </b-card-body>
   </b-card>
 </template>
@@ -17,6 +14,30 @@
 import apiService from "@/services/api-service.js";
 
 export default {
+  data: () => ({
+    fields: [
+      {
+        key: "invoice_number",
+        label: "Factuurnummer"
+      },
+      {
+        key: "total",
+        label: "Totaal",
+        class: "text-right",
+        formatter: "filterMoney"
+      },
+      {
+        key: "created_at",
+        label: "Datum",
+        class: "text-right"
+      }
+    ]
+  }),
+  computed: {
+    invoices() {
+      return this.$store.state.invoices;
+    }
+  },
   created() {
     apiService
       .getInvoices()
@@ -26,8 +47,11 @@ export default {
       .finally(() => {
         this.$store.commit("loadingItems", false);
       });
+  },
+  methods: {
+    filterMoney(value) {
+      return this.$options.filters.money(value);
+    }
   }
 };
 </script>
-
-<style></style>
