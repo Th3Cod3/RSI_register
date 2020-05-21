@@ -1,6 +1,5 @@
 const serviceConfig = {
-  apiUrl: "https://rip.rsiaruba.com/api"
-  // apiUrl: "http://dev.th3cod3.host/api"
+  apiUrl: process.env.VUE_APP_API_URL
 };
 
 export default serviceConfig;
