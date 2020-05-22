@@ -1,24 +1,29 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store";
 
 import Shop from "@/views/Shop";
 import Error from "@/views/Error";
+import Invoices from "@/views/Invoices";
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
   mode: "history",
 
   routes: [
     {
       path: "/",
       name: "shop",
-      component: Shop
+      component: Shop,
+      meta: {
+        isPublic: true
+      }
     },
     {
       path: "/invoices",
-      name: "shop",
-      component: Shop
+      name: "invoices",
+      component: Invoices
     },
     {
       path: "*",
@@ -27,3 +32,16 @@ export default new Router({
     }
   ]
 });
+const isAuthenticated = () => {
+  return store.state.isLogin;
+};
+
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !isAuthenticated()) {
+    next({ name: "shop" });
+  } else {
+    next();
+  }
+});
+
+export default router;

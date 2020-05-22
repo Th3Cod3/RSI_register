@@ -9,7 +9,7 @@
               type="button"
               varient="danger"
               @click="clearCart"
-              :disabled="!items.length"
+              :disabled="!items.length || loading"
             >
               Clear
             </b-button>
@@ -75,13 +75,13 @@
         <button
           type="button"
           class="btn btn-success d-print-none btn-block"
-          v-if="successLogin && !saved && items.length > 0"
+          v-if="isLogin && !saved && items.length > 0"
           @click="saveInvoice"
           :disabled="loading"
         >
           Checkout
         </button>
-        <div v-else-if="successLogin && saved" class="btn-group d-print-none">
+        <div v-else-if="isLogin && saved" class="btn-group d-print-none">
           <button type="button" class="btn btn-primary" onclick="print()">
             Afdrukken
           </button>
@@ -93,6 +93,7 @@
 
 <script>
 import CartDetail from "@/components/CartCard/CartDetail";
+import apiService from "@/services/api-service.js";
 
 export default {
   data: () => ({
@@ -116,8 +117,8 @@ export default {
     totalDiscount() {
       return this.$store.getters.totalDiscount;
     },
-    successLogin() {
-      return this.$store.state.successLogin;
+    isLogin() {
+      return this.$store.state.isLogin;
     },
     change() {
       return this.$store.getters.change;
@@ -130,20 +131,15 @@ export default {
     saveInvoice() {
       this.loading = true;
       let formData = new FormData();
-      formData.set("token", this.$store.state.login.token);
-      formData.set("user", this.$store.state.login.user);
       formData.set("total", this.$store.state.totalAmount);
       let count = 0;
       this.items.forEach(item => {
         formData.set(`items[${count}][item_id]`, item.id);
-        formData.set(`items[${count}][amount]`, item.amount);
+        formData.set(`items[${count}][quantity]`, item.quantity);
         count++;
       });
-      fetch("https://rip.rsiaruba.com/api/invoice", {
-        method: "POST",
-        body: formData
-      })
-        .then(response => response.json())
+      apiService
+        .createInvoices(formData)
         .then(data => {
           if (data.invoice_number) {
             this.saved = true;

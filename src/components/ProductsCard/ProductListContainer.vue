@@ -16,6 +16,7 @@
 
 <script>
 import ItemDetail from "@/components/ProductsCard/ItemDetail";
+import apiService from "@/services/api-service.js";
 
 export default {
   name: "ProductListContainer",
@@ -34,8 +35,8 @@ export default {
     }
   },
   created() {
-    fetch("https://rip.rsiaruba.com/api/sales")
-      .then(response => response.json())
+    apiService
+      .getProducts()
       .then(data => {
         this.$store.commit("items", data);
       })

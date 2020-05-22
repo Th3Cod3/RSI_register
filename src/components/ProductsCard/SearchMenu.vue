@@ -63,7 +63,6 @@ export default {
       this.$store.commit("clearSearch");
     },
     removeBarcodeSides() {
-      debugger; // eslint-disable-line
       this.barcode = this.barcode.substring(this.barcode.length - 1, 1);
       this.$store.commit("filterBarcode", this.barcode);
     }

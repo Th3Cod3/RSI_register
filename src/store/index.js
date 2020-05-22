@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     items: [],
+    invoices: [],
     selectedItems: [],
     filter: {
       productName: "",
@@ -27,13 +28,13 @@ export default new Vuex.Store({
     },
     paidAmount: 0,
     totalAmount: 0,
-    successLogin: false
+    isLogin: false
   },
   getters: {
     totalFullPrice(state) {
       let total = 0;
       state.selectedItems.forEach(item => {
-        total = Number(item.price) * Number(item.amount) + total;
+        total = Number(item.price) * Number(item.quantity) + total;
       });
       return total;
     },
@@ -43,7 +44,7 @@ export default new Vuex.Store({
         total =
           Number(item.price) *
             (Number(100 - item.discount) / 100) *
-            Number(item.amount) +
+            Number(item.quantity) +
           total;
       });
       state.totalAmount = total;
@@ -55,7 +56,7 @@ export default new Vuex.Store({
         total =
           Number(item.price) *
             (Number(item.discount) / 100) *
-            Number(item.amount) +
+            Number(item.quantity) +
           total;
       });
       return total;
@@ -72,7 +73,7 @@ export default new Vuex.Store({
       state.filter = payload;
     },
     logout(state) {
-      state.successLogin = false;
+      state.isLogin = false;
       state.login = {
         user: "",
         token: "",
@@ -92,12 +93,15 @@ export default new Vuex.Store({
       state.invoiceInfo = payload;
     },
     login(state, payload) {
-      state.successLogin = true;
+      state.isLogin = true;
       state.loginForm.password = "";
       state.login = payload;
     },
     items(state, payload) {
       state.items = payload;
+    },
+    invoices(state, payload) {
+      state.invoices = payload;
     },
     loadingItems(state, payload) {
       state.loadingItems = payload;
@@ -118,20 +122,20 @@ export default new Vuex.Store({
     addItemToCart(state, payload) {
       let item = state.selectedItems.findIndex(item => item.id === payload.id);
       if (item !== -1) {
-        state.selectedItems[item].amount++;
+        state.selectedItems[item].quantity++;
       } else {
         state.selectedItems.unshift({
-          amount: 1,
+          quantity: 1,
           ...payload
         });
       }
     },
-    changeItemAmount(state, payload) {
+    changeItemQuantity(state, payload) {
       let index = state.selectedItems.findIndex(item => item.id === payload.id);
-      if (payload.amount == 0) {
+      if (payload.quantity == 0) {
         state.selectedItems.splice(index, 1);
       } else {
-        state.selectedItems[index].amount = payload.amount;
+        state.selectedItems[index].quantity = payload.quantity;
       }
     }
   }
