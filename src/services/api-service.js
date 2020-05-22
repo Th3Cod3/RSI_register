@@ -56,6 +56,22 @@ apiService.createInvoices = formData => {
   }).then(res => res.json());
 };
 
+apiService.updateInvoice = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/update_invoice`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
+apiService.updateInvoiceItem = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/update_invoice_item`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
 apiService.login = formData => {
   return fetch(`${serviceConfig.apiUrl}/login`, {
     method: "POST",

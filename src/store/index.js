@@ -35,6 +35,14 @@ export default new Vuex.Store({
     isLogin: false
   },
   getters: {
+    totalInvoice(state) {
+      // debugger // eslint-disable-line
+      let total = 0;
+      state.invoiceItems.forEach(item => {
+        total += item.price * item.quantity;
+      });
+      return total;
+    },
     totalFullPrice(state) {
       let total = 0;
       state.selectedItems.forEach(item => {

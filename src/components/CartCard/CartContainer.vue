@@ -27,7 +27,7 @@
                 <td class="d-print-table-cell d-none text-right">
                   Verkoopprijs
                 </td>
-                <td class="text-right">Hoveelheid</td>
+                <td class="text-right">Hoeveelheid</td>
                 <td class="text-right">Totale verkoopprijs</td>
               </tr>
             </thead>
@@ -168,10 +168,6 @@ export default {
 </script>
 
 <style scoped>
-.total-summary {
-  font-size: 1.25rem;
-}
-
 .cart-items-container {
   overflow-y: auto;
 }

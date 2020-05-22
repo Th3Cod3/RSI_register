@@ -30,6 +30,10 @@ export default {
   font-size: 1.5rem;
 }
 
+.total-summary {
+  font-size: 1.25rem;
+}
+
 .body-height {
   max-height: 88vh;
 }

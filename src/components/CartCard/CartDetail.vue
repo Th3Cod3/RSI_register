@@ -49,7 +49,9 @@ export default {
     changeAmountToggle() {
       this.changeAmount = !this.changeAmount;
       if (this.changeAmount) {
-        this.$el.querySelector("input").focus();
+        setTimeout(() => {
+          this.$el.querySelector("input").focus();
+        }, 0);
       }
     },
     updateAmount() {
