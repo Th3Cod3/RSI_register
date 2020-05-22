@@ -12,18 +12,40 @@ const setToken = formData => {
   return formData;
 };
 
-const setURLToken = () => {
-  return `token=${store.state.login.token}&user=${store.state.login.user}`;
+const setURLString = formData => {
+  let params = new URLSearchParams(formData);
+  return params.toString();
 };
 
-apiService.getProducts = () => {
-  return fetch(`${serviceConfig.apiUrl}/products`).then(res => res.json());
-};
-
-apiService.getInvoices = () => {
-  return fetch(`${serviceConfig.apiUrl}/invoices?${setURLToken()}`).then(res =>
+apiService.getProducts = formData => {
+  let params = setURLString(formData);
+  if (params) {
+    params = "?" + params;
+  }
+  return fetch(`${serviceConfig.apiUrl}/products${params}`).then(res =>
     res.json()
   );
+};
+
+apiService.getInvoice = id => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/invoice/${id}?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+apiService.getInvoices = formData => {
+  formData = setToken(formData);
+  return fetch(
+    `${serviceConfig.apiUrl}/invoices?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+apiService.getInvoiceItems = formData => {
+  formData = setToken(formData);
+  return fetch(
+    `${serviceConfig.apiUrl}/invoice_items?${setURLString(formData)}`
+  ).then(res => res.json());
 };
 
 apiService.createInvoices = formData => {
