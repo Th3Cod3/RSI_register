@@ -2,23 +2,12 @@
   <b-row>
     <b-col xl="3" md="6" sm="12">
       <b-form-group label="Product name">
-        <input
-          @input="sendData"
-          type="text"
-          class="form-control"
-          v-model="productName"
-        />
+        <input type="text" class="form-control" v-model="productName" />
       </b-form-group>
     </b-col>
     <b-col xl="3" md="6" sm="12">
-      <b-form-group label="Barcode" label-for="barcode">
-        <b-form-input
-          @input="sendData"
-          type="text"
-          id="barcode"
-          class="form-control"
-          v-model="barcode"
-        />
+      <b-form-group label="Barcode">
+        <b-form-input type="text" class="form-control" v-model="barcode" />
       </b-form-group>
     </b-col>
     <b-col>
@@ -45,26 +34,31 @@
 <script>
 export default {
   name: "SearchMenu",
-  data: () => ({
-    productName: "",
-    barcode: ""
-  }),
-  methods: {
-    sendData() {
-      this.$store.commit("filter", {
-        productName: this.productName,
-        barcode: this.barcode
-      });
+  computed: {
+    productName: {
+      get() {
+        return this.$store.state.productFilter.productName;
+      },
+      set(value) {
+        this.$store.commit("productFilter_productName", value);
+      }
     },
+    barcode: {
+      get() {
+        return this.$store.state.productFilter.barcode;
+      },
+      set(value) {
+        this.$store.commit("productFilter_barcode", value);
+      }
+    }
+  },
+  methods: {
     clearSearch() {
       this.productName = "";
       this.barcode = "";
-      this.$el.querySelector("input#barcode").focus();
-      this.$store.commit("clearSearch");
     },
     removeBarcodeSides() {
       this.barcode = this.barcode.substring(this.barcode.length - 1, 1);
-      this.$store.commit("filterBarcode", this.barcode);
     }
   }
 };

@@ -7,10 +7,15 @@ export default new Vuex.Store({
   state: {
     items: [],
     invoices: [],
+    invoice: {},
+    invoiceItems: [],
     selectedItems: [],
-    filter: {
+    productFilter: {
       productName: "",
       barcode: ""
+    },
+    invoiceFilter: {
+      invoiceNumber: ""
     },
     loadingItems: true,
     login: {
@@ -27,7 +32,6 @@ export default new Vuex.Store({
       date: ""
     },
     paidAmount: 0,
-    totalAmount: 0,
     isLogin: false
   },
   getters: {
@@ -47,7 +51,6 @@ export default new Vuex.Store({
             Number(item.quantity) +
           total;
       });
-      state.totalAmount = total;
       return total;
     },
     totalDiscount(state) {
@@ -61,17 +64,14 @@ export default new Vuex.Store({
       });
       return total;
     },
-    change(state) {
-      if (state.paidAmount < state.totalAmount) {
+    change(state, getters) {
+      if (state.paidAmount < getters.total) {
         return 0;
       }
-      return Number(state.paidAmount) - Number(state.totalAmount);
+      return Number(state.paidAmount) - Number(getters.total);
     }
   },
   mutations: {
-    filter(state, payload) {
-      state.filter = payload;
-    },
     logout(state) {
       state.isLogin = false;
       state.login = {
@@ -80,14 +80,20 @@ export default new Vuex.Store({
         permissions: {}
       };
     },
-    filterBarcode(state, payload) {
-      state.filter.barcode = payload;
+    invoiceFilter_invoiceNumber(state, invoiceNumber) {
+      state.invoiceFilter.invoiceNumber = invoiceNumber;
+    },
+    productFilter_barcode(state, barcode) {
+      state.productFilter.barcode = barcode;
+    },
+    productFilter_productName(state, productName) {
+      state.productFilter.productName = productName;
     },
     inputLogin(state, payload) {
       state.loginForm = payload;
     },
-    paidAmount(state, payload) {
-      state.paidAmount = payload;
+    paidAmount(state, amount) {
+      state.paidAmount = amount;
     },
     invoiceInfo(state, payload) {
       state.invoiceInfo = payload;
@@ -102,6 +108,12 @@ export default new Vuex.Store({
     },
     invoices(state, payload) {
       state.invoices = payload;
+    },
+    invoiceItems(state, payload) {
+      state.invoiceItems = payload;
+    },
+    invoice(state, payload) {
+      state.invoice = payload;
     },
     loadingItems(state, payload) {
       state.loadingItems = payload;

@@ -1,6 +1,6 @@
 <template>
   <b-col md="12" lg="8" class="d-print-none">
-    <b-card no-body class="product-container box-shadow">
+    <b-card no-body class="body-height box-shadow">
       <b-card-header>
         <search-menu />
       </b-card-header>
@@ -25,9 +25,6 @@ export default {
 </script>
 
 <style scoped>
-.product-container {
-  height: 88vh;
-}
 .product-list-container {
   overflow: auto;
 }

@@ -1,6 +1,6 @@
 <template>
   <b-col lg="4" md="12">
-    <b-card no-body class="cart-container box-shadow">
+    <b-card no-body class="body-height box-shadow">
       <b-card-header>
         Productlijst
         <span class="float-right d-print-none">
@@ -131,7 +131,7 @@ export default {
     saveInvoice() {
       this.loading = true;
       let formData = new FormData();
-      formData.set("total", this.$store.state.totalAmount);
+      formData.set("total", this.$store.getters.total);
       let count = 0;
       this.items.forEach(item => {
         formData.set(`items[${count}][item_id]`, item.id);
@@ -168,16 +168,10 @@ export default {
 </script>
 
 <style scoped>
-.total {
-  font-weight: 500;
-  font-size: 1.5rem;
-}
 .total-summary {
   font-size: 1.25rem;
 }
-.cart-container {
-  max-height: 88vh;
-}
+
 .cart-items-container {
   overflow-y: auto;
 }
