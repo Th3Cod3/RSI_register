@@ -136,6 +136,11 @@ export default {
       this.items.forEach(item => {
         formData.set(`items[${count}][item_id]`, item.id);
         formData.set(`items[${count}][quantity]`, item.quantity);
+        formData.set(
+          `items[${count}][price]`,
+          item.price * ((100 - item.discount) / 100)
+        );
+        formData.set(`items[${count}][discount]`, item.discount);
         count++;
       });
       apiService
