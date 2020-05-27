@@ -2,7 +2,7 @@
   <b-table
     striped
     hover
-    small
+    smal
     sticky-header="70vh"
     :items="invoiceItems"
     :fields="fields"
@@ -23,6 +23,12 @@
         />
       </div>
     </template>
+    <template v-slot:cell(prijs_discount)="data">
+      {{ (data.item.price * data.item.quantity) | money }}
+    </template>
+    <template v-slot:cell(sale_price)="data">
+      {{ (data.item.price / ((100 - data.item.discount) / 100)) | money }}
+    </template>
   </b-table>
 </template>
 
@@ -39,8 +45,19 @@ export default {
         label: "Omschrijving"
       },
       {
-        key: "price",
+        key: "sale_price",
         label: "Shapprijs",
+        class: "text-right",
+        formatter: "filterMoney"
+      },
+      {
+        key: "discount",
+        label: "Korting",
+        class: "text-right"
+      },
+      {
+        key: "price",
+        label: "Verkoopprijs",
         class: "text-right",
         formatter: "filterMoney"
       },
@@ -48,6 +65,12 @@ export default {
         key: "quantity",
         label: "Hoeveelheid",
         class: "text-right"
+      },
+      {
+        key: "prijs_discount",
+        label: "Totale Verkoopprijs",
+        class: "text-right",
+        formatter: "filterMoney"
       }
     ]
   }),

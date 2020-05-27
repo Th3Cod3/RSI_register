@@ -112,7 +112,6 @@ export default {
       formData.append("id", this.invoice.id);
       formData.append("total", this.newTotal);
       this.isSaving = true;
-      // let self = this;
       apiService
         .updateInvoice(formData)
         .then(invoice => {
