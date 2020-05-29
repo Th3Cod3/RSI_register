@@ -60,4 +60,11 @@ export default {
   opacity: 0;
   transition: 0.5s ease;
 }
+
+@media print {
+  .body-height {
+    max-height: 100%;
+    overflow: hidden;
+  }
+}
 </style>

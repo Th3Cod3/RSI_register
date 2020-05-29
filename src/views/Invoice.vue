@@ -2,7 +2,10 @@
   <div>
     <print-invoice-header />
     <b-card no-body class="body-height box-shadow">
-      <b-card-header>Factuur {{ invoice.invoice_number }} </b-card-header>
+      <b-card-header>
+        <span class="d-print-none">Factuur {{ invoice.invoice_number }}</span>
+        <span class="d-none d-print-block">Productlijst</span>
+      </b-card-header>
       <b-card-body>
         <invoice-items />
       </b-card-body>

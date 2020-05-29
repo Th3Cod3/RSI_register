@@ -2,7 +2,7 @@
   <b-table
     striped
     hover
-    smal
+    small
     sticky-header="70vh"
     :items="invoiceItems"
     :fields="fields"

@@ -7,7 +7,7 @@
         class="logo"
       />
     </div>
-    <div class="invoice-info">
+    <div class="invoice-info mt-4">
       <span>Factuurnummer: {{ invoiceNumber }}</span>
       <span class="float-right">Factuurdatum: {{ date }}</span>
     </div>
