@@ -36,6 +36,7 @@
 
 <script>
 import apiService from "@/services/api-service.js";
+import { NL_date } from "@/services/date.js";
 import invoiceItems from "@/components/Invoices/InvoiceItems";
 import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader";
 
@@ -79,6 +80,10 @@ export default {
       this.invoice = this.$store.state.invoices.find(
         invoice => invoice.id === this.$route.params.id
       );
+      this.$store.commit("invoiceInfo", {
+        invoiceNumber: this.invoice.invoice_number,
+        date: NL_date(this.invoice.created_at)
+      });
       this.newTotal = this.invoice.total;
     } else {
       apiService
@@ -86,6 +91,10 @@ export default {
         .then(data => {
           this.invoice = data;
           this.newTotal = data.total;
+          this.$store.commit("invoiceInfo", {
+            invoiceNumber: data.invoice_number,
+            date: NL_date(data.created_at)
+          });
         })
         .finally(() => {
           this.$store.commit("loadingItems", false);
