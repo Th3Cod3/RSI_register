@@ -147,17 +147,23 @@ export default {
         });
     },
     voidInvoice() {
-      let formData = new FormData();
-      formData.append("id", this.invoice.id);
-      this.isVoiding = true;
-      apiService
-        .voidInvoice(formData)
-        .then(invoice => {
-          this.invoice = invoice;
+      this.$confirm("Are you sure you want to void?", "VOID?", "warning", {
+        confirmButtonText: "VOID"
+      })
+        .then(() => {
+          this.isVoiding = true;
+          let formData = new FormData();
+          formData.append("id", this.invoice.id);
+          apiService
+            .voidInvoice(formData)
+            .then(invoice => {
+              this.invoice = invoice;
+            })
+            .finally(() => {
+              this.isVoiding = false;
+            });
         })
-        .finally(() => {
-          this.isVoiding = false;
-        });
+        .catch(() => {});
     },
     filterMoney(value) {
       return this.$options.filters.money(value);
