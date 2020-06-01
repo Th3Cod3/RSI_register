@@ -5,6 +5,18 @@
       <b-card-header>
         <span class="d-print-none">Factuur {{ invoice.invoice_number }}</span>
         <span class="d-none d-print-block">Productlijst</span>
+        <span class="float-right">
+          <b-button
+            :disabled="isVoiding"
+            class="d-print-none"
+            variant="danger"
+            v-if="!invoice.voided_by"
+            @click="voidInvoice"
+          >
+            VOID
+          </b-button>
+          <span v-else class="font-weight-bold">VOIDED</span>
+        </span>
       </b-card-header>
       <b-card-body>
         <invoice-items />
@@ -44,7 +56,8 @@ export default {
   data: () => ({
     isEditing: false,
     newTotal: 0,
-    isSaving: false
+    isSaving: false,
+    isVoiding: false
   }),
   components: {
     invoiceItems,
@@ -131,6 +144,19 @@ export default {
         })
         .finally(() => {
           this.isSaving = false;
+        });
+    },
+    voidInvoice() {
+      let formData = new FormData();
+      formData.append("id", this.invoice.id);
+      this.isVoiding = true;
+      apiService
+        .voidInvoice(formData)
+        .then(invoice => {
+          this.invoice = invoice;
+        })
+        .finally(() => {
+          this.isVoiding = false;
         });
     },
     filterMoney(value) {
