@@ -2,7 +2,22 @@
   <div>
     <print-invoice-header />
     <b-card no-body class="body-height box-shadow">
-      <b-card-header>Factuur {{ invoice.invoice_number }} </b-card-header>
+      <b-card-header>
+        <span class="d-print-none">Factuur {{ invoice.invoice_number }}</span>
+        <span class="d-none d-print-block">Productlijst</span>
+        <span class="float-right">
+          <b-button
+            :disabled="isVoiding"
+            class="d-print-none"
+            variant="danger"
+            v-if="!invoice.voided_by"
+            @click="voidInvoice"
+          >
+            VOID
+          </b-button>
+          <span v-else class="font-weight-bold">VOIDED</span>
+        </span>
+      </b-card-header>
       <b-card-body>
         <invoice-items />
       </b-card-body>
@@ -33,6 +48,7 @@
 
 <script>
 import apiService from "@/services/api-service.js";
+import { NL_date } from "@/services/date.js";
 import invoiceItems from "@/components/Invoices/InvoiceItems";
 import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader";
 
@@ -40,7 +56,8 @@ export default {
   data: () => ({
     isEditing: false,
     newTotal: 0,
-    isSaving: false
+    isSaving: false,
+    isVoiding: false
   }),
   components: {
     invoiceItems,
@@ -76,6 +93,10 @@ export default {
       this.invoice = this.$store.state.invoices.find(
         invoice => invoice.id === this.$route.params.id
       );
+      this.$store.commit("invoiceInfo", {
+        invoiceNumber: this.invoice.invoice_number,
+        date: NL_date(this.invoice.created_at)
+      });
       this.newTotal = this.invoice.total;
     } else {
       apiService
@@ -83,6 +104,10 @@ export default {
         .then(data => {
           this.invoice = data;
           this.newTotal = data.total;
+          this.$store.commit("invoiceInfo", {
+            invoiceNumber: data.invoice_number,
+            date: NL_date(data.created_at)
+          });
         })
         .finally(() => {
           this.$store.commit("loadingItems", false);
@@ -112,7 +137,6 @@ export default {
       formData.append("id", this.invoice.id);
       formData.append("total", this.newTotal);
       this.isSaving = true;
-      // let self = this;
       apiService
         .updateInvoice(formData)
         .then(invoice => {
@@ -121,6 +145,25 @@ export default {
         .finally(() => {
           this.isSaving = false;
         });
+    },
+    voidInvoice() {
+      this.$confirm("Are you sure you want to void?", "VOID?", "warning", {
+        confirmButtonText: "VOID"
+      })
+        .then(() => {
+          this.isVoiding = true;
+          let formData = new FormData();
+          formData.append("id", this.invoice.id);
+          apiService
+            .voidInvoice(formData)
+            .then(invoice => {
+              this.invoice = invoice;
+            })
+            .finally(() => {
+              this.isVoiding = false;
+            });
+        })
+        .catch(() => {});
     },
     filterMoney(value) {
       return this.$options.filters.money(value);

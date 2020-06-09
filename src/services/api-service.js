@@ -64,6 +64,14 @@ apiService.updateInvoice = formData => {
   }).then(res => res.json());
 };
 
+apiService.voidInvoice = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/void_invoice`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
 apiService.updateInvoiceItem = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/update_invoice_item`, {

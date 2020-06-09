@@ -36,10 +36,9 @@ export default new Vuex.Store({
   },
   getters: {
     totalInvoice(state) {
-      // debugger // eslint-disable-line
       let total = 0;
       state.invoiceItems.forEach(item => {
-        total += item.price * item.quantity;
+        total += (item.price / ((100 - item.discount) / 100)) * item.quantity;
       });
       return total;
     },
