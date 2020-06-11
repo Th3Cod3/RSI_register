@@ -6,6 +6,7 @@ import Shop from "@/views/Shop";
 import Error from "@/views/Error";
 import Invoices from "@/views/Invoices";
 import Invoice from "@/views/Invoice";
+import Inventory from "@/views/Inventory";
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ let router = new Router({
       path: "/invoice/:id",
       name: "invoice",
       component: Invoice
+    },
+    {
+      path: "/inventory",
+      name: "inventory",
+      component: Inventory
     },
     {
       path: "*",

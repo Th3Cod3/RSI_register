@@ -39,7 +39,7 @@
         </span>
         <span class="total" @click="editTotal" v-show="!isEditing">
           <i class="fas fa-spinner fa-pulse" v-if="isSaving"></i>
-          Eindtotaal {{ invoice.total | money }}
+          Eindtotaal {{ invoice.total | roundMoney }}
         </span>
       </b-card-footer>
     </b-card>
@@ -114,7 +114,8 @@ export default {
         });
     }
     let formData = new FormData();
-    formData.append("invoice_id", this.$route.params.id);
+    formData.set("filter_all", true);
+    formData.set("invoice_id", this.$route.params.id);
     apiService
       .getInvoiceItems(formData)
       .then(data => {

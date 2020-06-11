@@ -10,29 +10,36 @@
         <b-form-input type="text" class="form-control" v-model="barcode" />
       </b-form-group>
     </b-col>
-    <b-col>
-      <b-button
-        variant="outline-secondary"
-        class="float-right"
-        @click="clearSearch"
-        @touch="clearSearch"
-      >
-        <i class="far fa-times-circle fa-2x"></i>
-      </b-button>
-      <b-button
-        variant="outline-secondary"
-        class="float-right mx-2"
-        @click="removeBarcodeSides"
-        @touch="removeBarcodeSides"
-      >
-        <i class="fas fa-barcode fa-2x"></i>
-      </b-button>
+    <b-col v-if="shop">
+      <div class="float-right">
+        <b-button
+          variant="outline-secondary"
+          @click="clearSearch"
+          @touch="clearSearch"
+        >
+          <i class="far fa-times-circle fa-2x"></i>
+        </b-button>
+        <b-button
+          variant="outline-secondary"
+          class="mx-2"
+          @click="removeBarcodeSides"
+          @touch="removeBarcodeSides"
+        >
+          <i class="fas fa-barcode fa-2x"></i>
+        </b-button>
+      </div>
     </b-col>
   </b-row>
 </template>
 
 <script>
 export default {
+  props: {
+    shop: {
+      type: Boolean,
+      default: true
+    }
+  },
   name: "SearchMenu",
   computed: {
     productName: {

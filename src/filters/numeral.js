@@ -31,6 +31,8 @@ const dollarFilter = function(value) {
 const dollarRoundFilter = function(value) {
   if (!value) {
     return numeral(0).format("0.00 $");
+  } else {
+    value = Number(value);
   }
   let complement = value % 0.05;
   if (complement > 0.025) {
@@ -42,4 +44,12 @@ const dollarRoundFilter = function(value) {
   return numeral(value).format("0.00 $");
 };
 
-export { dollarFilter, dollarRoundFilter };
+const roundFilter = function(value) {
+  if (!value) {
+    return numeral(0).format("0,0.0");
+  }
+
+  return numeral(value).format("0,0.0");
+};
+
+export { dollarFilter, dollarRoundFilter, roundFilter };
