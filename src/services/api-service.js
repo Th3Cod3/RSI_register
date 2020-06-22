@@ -1,5 +1,5 @@
 import serviceConfig from "@/services/config.js";
-import store from "@/store";
+import store from "@/store.js";
 
 const apiService = {};
 
@@ -27,10 +27,25 @@ apiService.getProducts = formData => {
   );
 };
 
+apiService.saveProduct = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/product`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
 apiService.getInvoice = id => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/invoice/${id}?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+apiService.getProduct = id => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/product/${id}?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
@@ -78,6 +93,34 @@ apiService.updateInvoiceItem = formData => {
     method: "POST",
     body: formData
   }).then(res => res.json());
+};
+
+apiService.getCategories = () => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/categories?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+apiService.getSubCategories = () => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/sub_categories?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+apiService.getUnits = () => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/units?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+apiService.getPackagings = () => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/packagings?${setURLString(formData)}`
+  ).then(res => res.json());
 };
 
 apiService.login = formData => {

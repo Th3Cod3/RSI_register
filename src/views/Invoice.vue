@@ -110,7 +110,7 @@ export default {
           });
         })
         .finally(() => {
-          this.$store.commit("loadingItems", false);
+          this.$store.commit("isLoading", false);
         });
     }
     let formData = new FormData();
@@ -122,7 +122,7 @@ export default {
         this.invoiceItems = data;
       })
       .finally(() => {
-        this.$store.commit("loadingItems", false);
+        this.$store.commit("isLoading", false);
       });
   },
   methods: {
@@ -168,9 +168,6 @@ export default {
     },
     filterMoney(value) {
       return this.$options.filters.money(value);
-    },
-    selectInvoice(invoice) {
-      this.$router.push({ name: "invoice", params: { id: invoice.id } });
     }
   }
 };

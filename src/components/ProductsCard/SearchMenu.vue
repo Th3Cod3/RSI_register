@@ -12,20 +12,22 @@
     </b-col>
     <b-col v-if="shop">
       <div class="float-right">
-        <b-button
-          variant="outline-secondary"
-          @click="clearSearch"
-          @touch="clearSearch"
-        >
+        <b-button variant="outline-secondary" @click="clearSearch">
           <i class="far fa-times-circle fa-2x"></i>
         </b-button>
         <b-button
           variant="outline-secondary"
           class="mx-2"
           @click="removeBarcodeSides"
-          @touch="removeBarcodeSides"
         >
           <i class="fas fa-barcode fa-2x"></i>
+        </b-button>
+      </div>
+    </b-col>
+    <b-col v-else>
+      <div class="float-right">
+        <b-button variant="success" @click="createProduct">
+          <i class="fas fa-plus fa-2x"></i>
         </b-button>
       </div>
     </b-col>
@@ -66,6 +68,9 @@ export default {
     },
     removeBarcodeSides() {
       this.barcode = this.barcode.substring(this.barcode.length - 1, 1);
+    },
+    createProduct() {
+      this.$store.commit("openModal", "add-product");
     }
   }
 };

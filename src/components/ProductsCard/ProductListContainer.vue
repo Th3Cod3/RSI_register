@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col v-if="!loadingItems" cols="12">
+    <b-col v-if="!isLoading" cols="12">
       <item-detail v-for="item in items" :item="item" :key="item.id" />
     </b-col>
     <b-col v-else cols="12">
@@ -25,7 +25,7 @@ const getProduct = (component, reset = false) => {
       component.$store.commit("items", data);
     })
     .finally(() => {
-      component.$store.commit("loadingItems", false);
+      component.$store.commit("isLoading", false);
     });
 };
 
@@ -47,8 +47,8 @@ export default {
     barcode() {
       return this.$store.state.productFilter.barcode;
     },
-    loadingItems() {
-      return this.$store.state.loadingItems;
+    isLoading() {
+      return this.$store.state.isLoading;
     }
   },
   watch: {

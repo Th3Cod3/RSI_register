@@ -30,7 +30,7 @@ const getInvoices = (component, reset = false) => {
       component.$store.commit("invoices", data);
     })
     .finally(() => {
-      component.$store.commit("loadingItems", false);
+      component.$store.commit("isLoading", false);
     });
 };
 

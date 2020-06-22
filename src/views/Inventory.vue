@@ -18,33 +18,37 @@
         </template>
       </b-table>
     </b-card-body>
+    <add-product />
   </b-card>
 </template>
 
 <script>
 import apiService from "@/services/api-service.js";
 import SearchMenu from "@/components/ProductsCard/SearchMenu";
+import AddProduct from "@/components/Products/AddProduct";
 
 const getProducts = (component, reset = false) => {
   component.page = reset ? 0 : component.page;
   let formData = new FormData();
-  formData.append("extra-info", true);
-  formData.append("page", component.page);
-  formData.append("barcode", component.barcode);
-  formData.append("name", component.productName);
+  formData.set("extra-info", true);
+  formData.set("order", "created_at_desc");
+  formData.set("page", component.page);
+  formData.set("barcode", component.barcode);
+  formData.set("name", component.productName);
   apiService
     .getProducts(formData)
     .then(data => {
       component.$store.commit("items", data);
     })
     .finally(() => {
-      component.$store.commit("loadingItems", false);
+      component.$store.commit("isLoading", false);
     });
 };
 
 export default {
   components: {
-    SearchMenu
+    SearchMenu,
+    AddProduct
   },
   data: () => ({
     page: 0,
@@ -77,8 +81,8 @@ export default {
     barcode() {
       return this.$store.state.productFilter.barcode;
     },
-    loadingItems() {
-      return this.$store.state.loadingItems;
+    isLoading() {
+      return this.$store.state.isLoading;
     }
   },
   created() {

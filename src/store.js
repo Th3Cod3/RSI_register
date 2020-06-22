@@ -1,15 +1,31 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import apiService from "@/services/api-service.js";
+import { backendError, fetchError } from "@/services/error-handler.js";
 
 Vue.use(Vuex);
+const changeModal = (state, option, value) => {
+  switch (option) {
+    case "add-product":
+      state.modals.product.add = value;
+      break;
+  }
+};
 
 export default new Vuex.Store({
   state: {
     items: [],
+    product: {},
     invoices: [],
     invoice: {},
     invoiceItems: [],
     selectedItems: [],
+    options: {
+      categories: [],
+      subCategories: [],
+      packagings: [],
+      units: []
+    },
     productFilter: {
       productName: "",
       barcode: ""
@@ -17,7 +33,6 @@ export default new Vuex.Store({
     invoiceFilter: {
       invoiceNumber: ""
     },
-    loadingItems: true,
     login: {
       user: "",
       token: "",
@@ -32,6 +47,12 @@ export default new Vuex.Store({
       date: ""
     },
     paidAmount: 0,
+    modals: {
+      product: {
+        add: false
+      }
+    },
+    isLoading: true,
     isLogin: false
   },
   getters: {
@@ -79,6 +100,19 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    initializeStore(state) {
+      let login = false; // localStorage.getItem("login");
+      if (login) {
+        state.login = JSON.parse(login);
+        state.isLogin = true;
+      }
+    },
+    openModal(state, option) {
+      changeModal(state, option, true);
+    },
+    closeModal(state, option) {
+      changeModal(state, option, false);
+    },
     logout(state) {
       state.isLogin = false;
       state.login = {
@@ -86,6 +120,7 @@ export default new Vuex.Store({
         token: "",
         permissions: {}
       };
+      localStorage.removeItem("login");
     },
     invoiceFilter_invoiceNumber(state, invoiceNumber) {
       state.invoiceFilter.invoiceNumber = invoiceNumber;
@@ -95,6 +130,9 @@ export default new Vuex.Store({
     },
     productFilter_productName(state, productName) {
       state.productFilter.productName = productName;
+    },
+    product(state, product) {
+      state.product = product;
     },
     inputLogin(state, payload) {
       state.loginForm = payload;
@@ -109,6 +147,7 @@ export default new Vuex.Store({
       state.isLogin = true;
       state.loginForm.password = "";
       state.login = payload;
+      localStorage.setItem("login", JSON.stringify(state.login));
     },
     items(state, payload) {
       state.items = payload;
@@ -122,8 +161,8 @@ export default new Vuex.Store({
     invoice(state, payload) {
       state.invoice = payload;
     },
-    loadingItems(state, payload) {
-      state.loadingItems = payload;
+    isLoading(state, payload) {
+      state.isLoading = payload;
     },
     restoreInvoice(state) {
       state.selectedItems = [];
@@ -156,6 +195,70 @@ export default new Vuex.Store({
       } else {
         state.selectedItems[index].quantity = payload.quantity;
       }
+    },
+    categories(state, categories) {
+      state.options.categories = categories;
+    },
+    units(state, units) {
+      state.options.units = units;
+    },
+    subCategories(state, subCategories) {
+      state.options.subCategories = subCategories;
+    },
+    packagings(state, packagings) {
+      state.options.packagings = packagings;
+    }
+  },
+  actions: {
+    categories({ commit }) {
+      apiService.getCategories().then(categories => {
+        commit("categories", categories);
+      });
+    },
+    subCategories({ commit }) {
+      apiService.getSubCategories().then(subCategories => {
+        commit("subCategories", subCategories);
+      });
+    },
+    units({ commit }) {
+      apiService.getUnits().then(units => {
+        commit("units", units);
+      });
+    },
+    packagings({ commit }) {
+      apiService.getPackagings().then(packagings => {
+        commit("packagings", packagings);
+      });
+    },
+    saveProduct(context, formData) {
+      return new Promise((resolve, reject) => {
+        apiService
+          .saveProduct(formData)
+          .then(result => {
+            if (result.error) {
+              backendError(result.error);
+              reject(result.error);
+            } else {
+              resolve(result);
+            }
+          })
+          .catch(error => {
+            fetchError(error);
+          });
+      });
+    },
+    getProduct({ commit }, id) {
+      apiService
+        .getProduct(id)
+        .then(data => {
+          commit("product", data);
+        })
+        .finally(() => {
+          commit("isLoading", false);
+        })
+        .catch(error => {
+          fetchError(error);
+        });
     }
   }
 });
