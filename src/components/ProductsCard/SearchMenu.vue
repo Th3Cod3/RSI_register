@@ -26,7 +26,12 @@
     </b-col>
     <b-col v-else>
       <div class="float-right">
-        <b-button variant="success" @click="createProduct">
+        <b-button
+          variant="success"
+          v-b-tooltip.hover.bottom
+          title="Add product"
+          @click="createProduct"
+        >
           <i class="fas fa-plus fa-2x"></i>
         </b-button>
       </div>

@@ -9,6 +9,15 @@ const changeModal = (state, option, value) => {
     case "add-product":
       state.modals.product.add = value;
       break;
+    case "add-product-price":
+      state.modals.product.price = value;
+      break;
+    case "add-product-discount":
+      state.modals.product.discount = value;
+      break;
+    case "add-product-stock":
+      state.modals.product.stock = value;
+      break;
   }
 };
 
@@ -49,7 +58,10 @@ export default new Vuex.Store({
     paidAmount: 0,
     modals: {
       product: {
-        add: false
+        add: false,
+        price: false,
+        discount: false,
+        stock: false
       }
     },
     isLoading: true,
@@ -239,6 +251,72 @@ export default new Vuex.Store({
               backendError(result.error);
               reject(result.error);
             } else {
+              resolve(result);
+            }
+          })
+          .catch(error => {
+            fetchError(error);
+          });
+      });
+    },
+    addPrice({ commit, state }, formData) {
+      return new Promise((resolve, reject) => {
+        apiService
+          .changeProductPrice(formData)
+          .then(result => {
+            if (result.error) {
+              backendError(result.error);
+              reject(result.error);
+            } else {
+              let product = {
+                ...state.product,
+                price: formData.get("price")
+              }
+              commit("product", product)
+              resolve(result);
+            }
+          })
+          .catch(error => {
+            fetchError(error);
+          });
+      });
+    },
+    addDiscount({ commit, state }, formData) {
+      return new Promise((resolve, reject) => {
+        apiService
+          .changeProductDiscount(formData)
+          .then(result => {
+            if (result.error) {
+              backendError(result.error);
+              reject(result.error);
+            } else {
+              let product = {
+                ...state.product,
+                discount: formData.get("discount")
+              }
+              commit("product", product)
+              resolve(result);
+            }
+          })
+          .catch(error => {
+            fetchError(error);
+          });
+      });
+    },
+    addStock({ commit, state }, formData) {
+      return new Promise((resolve, reject) => {
+        apiService
+          .addProductStock(formData)
+          .then(result => {
+            if (result.error) {
+              backendError(result.error);
+              reject(result.error);
+            } else {
+              let product = {
+                ...state.product,
+                quantity: result.quantity
+              }
+              commit("product", product)
               resolve(result);
             }
           })

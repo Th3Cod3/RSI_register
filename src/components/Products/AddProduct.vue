@@ -5,6 +5,7 @@
     title="Add product"
     ok-variant="success"
     ok-title="Save"
+    :busy="isLoading"
     @hide="closeModal"
     @ok="saveProduct"
   >
@@ -111,6 +112,7 @@ export default {
     bundle_unit_id: null,
     packaging_id: null,
     barcode: null,
+    isLoading: false,
     dimensionsObj: {
       lenght: null,
       width: null,

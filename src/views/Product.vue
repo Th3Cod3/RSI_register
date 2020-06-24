@@ -1,5 +1,8 @@
 <template>
   <b-row>
+    <add-price :productId="product.id" />
+    <add-discount :productId="product.id" />
+    <add-stock :productId="product.id" />
     <b-col cols="12">
       <b-card no-body class="body-height box-shadow mb-2">
         <b-card-header>
@@ -10,6 +13,7 @@
                 variant="primary"
                 v-b-tooltip.hover.bottom
                 title="Apply discount"
+                @click="addDiscount"
               >
                 <i class="fas fa-percentage"></i>
               </b-button>
@@ -17,6 +21,7 @@
                 variant="primary"
                 v-b-tooltip.hover.bottom
                 title="Change price"
+                @click="addPrice"
               >
                 <i class="fas fa-dollar-sign"></i>
               </b-button>
@@ -24,6 +29,7 @@
                 variant="primary"
                 v-b-tooltip.hover.bottom
                 title="Add stock"
+                @click="addStock"
               >
                 <i class="fas fa-boxes"></i>
               </b-button>
@@ -110,7 +116,6 @@
         </b-card-body>
       </b-card>
     </b-col>
-
     <b-col md="12" lg="4">
       <b-card class="body-height box-shadow mb-2 p-3">
         <div class="chart-container">
@@ -138,6 +143,9 @@
 <script>
 import LineChart from "@/components/Charts/LineChart.js";
 import BarChart from "@/components/Charts/BarChart.js";
+import AddPrice from "@/components/Products/AddPrice";
+import AddDiscount from "@/components/Products/AddDiscount";
+import AddStock from "@/components/Products/AddStock";
 
 export default {
   data: () => ({
@@ -148,7 +156,10 @@ export default {
   }),
   components: {
     LineChart,
-    BarChart
+    BarChart,
+    AddPrice,
+    AddDiscount,
+    AddStock
   },
   computed: {
     prices: {
@@ -220,6 +231,15 @@ export default {
   methods: {
     filterMoney(value) {
       return this.$options.filters.money(value);
+    },
+    addPrice() {
+      this.$store.commit("openModal", "add-product-price");
+    },
+    addDiscount() {
+      this.$store.commit("openModal", "add-product-discount");
+    },
+    addStock() {
+      this.$store.commit("openModal", "add-product-stock");
     }
   }
 };

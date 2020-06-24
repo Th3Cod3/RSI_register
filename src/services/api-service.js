@@ -22,7 +22,14 @@ apiService.getProducts = formData => {
   if (params) {
     params = "?" + params;
   }
-  return fetch(`${serviceConfig.apiUrl}/products${params}`).then(res =>
+  return fetch(`${serviceConfig.apiUrl}/product/all${params}`).then(res =>
+    res.json()
+  );
+};
+
+apiService.status = () => {
+  let params = setURLString(setToken());
+  return fetch(`${serviceConfig.apiUrl}/status?${params}`).then(res =>
     res.json()
   );
 };
@@ -52,14 +59,14 @@ apiService.getProduct = id => {
 apiService.getInvoices = formData => {
   formData = setToken(formData);
   return fetch(
-    `${serviceConfig.apiUrl}/invoices?${setURLString(formData)}`
+    `${serviceConfig.apiUrl}/invoice/all?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
 apiService.getInvoiceItems = formData => {
   formData = setToken(formData);
   return fetch(
-    `${serviceConfig.apiUrl}/invoice_items?${setURLString(formData)}`
+    `${serviceConfig.apiUrl}/invoice/items?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
@@ -73,7 +80,31 @@ apiService.createInvoices = formData => {
 
 apiService.updateInvoice = formData => {
   setToken(formData);
-  return fetch(`${serviceConfig.apiUrl}/update_invoice`, {
+  return fetch(`${serviceConfig.apiUrl}/invoice/update`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
+apiService.changeProductPrice = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/product/price`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
+apiService.changeProductDiscount = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/product/discount`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json());
+};
+
+apiService.addProductStock = formData => {
+  setToken(formData);
+  return fetch(`${serviceConfig.apiUrl}/product/stock`, {
     method: "POST",
     body: formData
   }).then(res => res.json());
@@ -81,7 +112,7 @@ apiService.updateInvoice = formData => {
 
 apiService.voidInvoice = formData => {
   setToken(formData);
-  return fetch(`${serviceConfig.apiUrl}/void_invoice`, {
+  return fetch(`${serviceConfig.apiUrl}/invoice/void`, {
     method: "POST",
     body: formData
   }).then(res => res.json());
@@ -89,7 +120,7 @@ apiService.voidInvoice = formData => {
 
 apiService.updateInvoiceItem = formData => {
   setToken(formData);
-  return fetch(`${serviceConfig.apiUrl}/update_invoice_item`, {
+  return fetch(`${serviceConfig.apiUrl}/invoice/update_item`, {
     method: "POST",
     body: formData
   }).then(res => res.json());
