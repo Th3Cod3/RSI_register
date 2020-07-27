@@ -8,10 +8,10 @@
       {{ product.discount }}%
     </td>
     <td class="text-right d-none d-print-table-cell">
-      {{ -((product.discount / 100) * product.price - product.price) | money }}
+      {{ discountPrice | money }}
     </td>
     <td class="text-right">
-      <span v-show="!changeAmount" @click="changeAmountToggle">{{
+      <span v-show="!changeAmount" @click="changeAmount = true">{{
         product.quantity
       }}</span>
       <span v-show="changeAmount">
@@ -20,17 +20,15 @@
             type="number"
             class="amount"
             @blur="updateAmount"
+            @keydown.enter="updateAmount"
+            @keydown.esc="changeAmount = false"
             v-model="inputAmount"
           />
         </div>
       </span>
     </td>
     <td class="text-right">
-      {{
-        (product.quantity *
-          (product.price - (product.discount / 100) * product.price))
-          | money
-      }}
+      {{ salePrice | money }}
     </td>
   </tr>
 </template>
@@ -42,24 +40,39 @@ export default {
     changeAmount: false,
     inputAmount: 0
   }),
-  created() {
-    this.inputAmount = this.product.quantity;
+  computed: {
+    discount() {
+      return this.product.discount / 100;
+    },
+    priceEach() {
+      return this.product.price - this.discount * this.product.price;
+    },
+    discountPrice() {
+      return this.product.price - this.priceEach;
+    },
+    salePrice() {
+      return this.product.quantity * this.priceEach;
+    }
   },
-  methods: {
-    changeAmountToggle() {
-      this.changeAmount = !this.changeAmount;
-      if (this.changeAmount) {
+  watch: {
+    changeAmount(value, oldValue) {
+      if (value && !oldValue) {
+        this.inputAmount = this.product.quantity;
         setTimeout(() => {
           this.$el.querySelector("input").focus();
         }, 0);
       }
-    },
+    }
+  },
+  methods: {
     updateAmount() {
-      this.changeAmountToggle();
-      this.$store.commit("changeItemQuantity", {
-        id: this.product.id,
-        quantity: this.inputAmount
-      });
+      if (this.changeAmount) {
+        this.changeAmount = false;
+        this.$store.commit("shop/CHANGE_QUANTITY", {
+          id: this.product.id,
+          quantity: this.inputAmount
+        });
+      }
     }
   }
 };

@@ -1,38 +1,14 @@
 <template>
   <b-row>
-    <add-price :productId="product.id" />
-    <add-discount :productId="product.id" />
-    <add-stock :productId="product.id" />
     <b-col cols="12">
       <b-card no-body class="body-height box-shadow mb-2">
         <b-card-header>
           Product information
           <span class="float-right">
             <b-button-group>
-              <b-button
-                variant="primary"
-                v-b-tooltip.hover.bottom
-                title="Apply discount"
-                @click="addDiscount"
-              >
-                <i class="fas fa-percentage"></i>
-              </b-button>
-              <b-button
-                variant="primary"
-                v-b-tooltip.hover.bottom
-                title="Change price"
-                @click="addPrice"
-              >
-                <i class="fas fa-dollar-sign"></i>
-              </b-button>
-              <b-button
-                variant="primary"
-                v-b-tooltip.hover.bottom
-                title="Add stock"
-                @click="addStock"
-              >
-                <i class="fas fa-boxes"></i>
-              </b-button>
+              <add-price :productId="productId" />
+              <add-discount :productId="productId" />
+              <add-stock :productId="productId" />
             </b-button-group>
           </span>
         </b-card-header>
@@ -147,8 +123,11 @@ import AddPrice from "@/components/Products/AddPrice";
 import AddDiscount from "@/components/Products/AddDiscount";
 import AddStock from "@/components/Products/AddStock";
 
+import { mapState } from "vuex";
+
 export default {
   data: () => ({
+    productId: null,
     options: {
       responsive: true,
       maintainAspectRatio: false
@@ -162,22 +141,7 @@ export default {
     AddStock
   },
   computed: {
-    prices: {
-      get() {
-        return this.$store.state.product.prices;
-      },
-      set(value) {
-        this.$store.commit("productPrices", value);
-      }
-    },
-    product: {
-      get() {
-        return this.$store.state.product;
-      },
-      set(value) {
-        this.$store.commit("product", value);
-      }
-    },
+    ...mapState("product", { product: state => state.product }),
     pricesCollection() {
       return {
         labels: ["January", "February", "Maart"],
@@ -218,29 +182,8 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.items) {
-      this.product =
-        this.$store.state.items.find(
-          product => product.id === this.$route.params.id
-        ) || {};
-    }
-    if (!this.product.lenght) {
-      this.$store.dispatch("getProduct", this.$route.params.id);
-    }
-  },
-  methods: {
-    filterMoney(value) {
-      return this.$options.filters.money(value);
-    },
-    addPrice() {
-      this.$store.commit("openModal", "add-product-price");
-    },
-    addDiscount() {
-      this.$store.commit("openModal", "add-product-discount");
-    },
-    addStock() {
-      this.$store.commit("openModal", "add-product-stock");
-    }
+    this.productId = this.$route.params.id;
+    this.$store.dispatch("product/getProduct", this.$route.params.id);
   }
 };
 </script>

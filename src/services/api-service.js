@@ -1,14 +1,12 @@
 import serviceConfig from "@/services/config.js";
-import store from "@/store.js";
-
-const apiService = {};
+import store from "@/store/index.js";
 
 const setToken = formData => {
   if (!formData) {
     formData = new FormData();
   }
-  formData.set("token", store.state.login.token);
-  formData.set("user", store.state.login.user);
+  formData.set("token", store.state.user.token);
+  formData.set("user", store.state.user.username);
   return formData;
 };
 
@@ -17,24 +15,28 @@ const setURLString = formData => {
   return params.toString();
 };
 
-apiService.getProducts = formData => {
-  let params = setURLString(formData);
-  if (params) {
-    params = "?" + params;
-  }
-  return fetch(`${serviceConfig.apiUrl}/product/all${params}`).then(res =>
-    res.json()
-  );
+const getProducts = formData => {
+  formData = setToken(formData);
+  return fetch(
+    `${serviceConfig.apiUrl}/product/all?${setURLString(formData)}`
+  ).then(res => res.json());
 };
 
-apiService.status = () => {
-  let params = setURLString(setToken());
+const getInventories = formData => {
+  formData = setToken(formData);
+  return fetch(
+    `${serviceConfig.apiUrl}/inventory/all?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+const status = (token = null) => {
+  let params = token ? setURLString(setToken()) : "token=" + token;
   return fetch(`${serviceConfig.apiUrl}/status?${params}`).then(res =>
     res.json()
   );
 };
 
-apiService.saveProduct = formData => {
+const saveProduct = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/product`, {
     method: "POST",
@@ -42,35 +44,42 @@ apiService.saveProduct = formData => {
   }).then(res => res.json());
 };
 
-apiService.getInvoice = id => {
+const getInvoice = id => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/invoice/${id}?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.getProduct = id => {
+const getInventory = id => {
+  let formData = setToken();
+  return fetch(
+    `${serviceConfig.apiUrl}/inventory/${id}?${setURLString(formData)}`
+  ).then(res => res.json());
+};
+
+const getProduct = id => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/product/${id}?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.getInvoices = formData => {
+const getInvoices = formData => {
   formData = setToken(formData);
   return fetch(
     `${serviceConfig.apiUrl}/invoice/all?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.getInvoiceItems = formData => {
+const getInvoiceItems = formData => {
   formData = setToken(formData);
   return fetch(
     `${serviceConfig.apiUrl}/invoice/items?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.createInvoices = formData => {
+const createInvoices = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/invoice`, {
     method: "POST",
@@ -78,7 +87,7 @@ apiService.createInvoices = formData => {
   }).then(res => res.json());
 };
 
-apiService.updateInvoice = formData => {
+const updateInvoice = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/invoice/update`, {
     method: "POST",
@@ -86,7 +95,7 @@ apiService.updateInvoice = formData => {
   }).then(res => res.json());
 };
 
-apiService.changeProductPrice = formData => {
+const changeProductPrice = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/product/price`, {
     method: "POST",
@@ -94,7 +103,7 @@ apiService.changeProductPrice = formData => {
   }).then(res => res.json());
 };
 
-apiService.changeProductDiscount = formData => {
+const changeProductDiscount = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/product/discount`, {
     method: "POST",
@@ -102,7 +111,7 @@ apiService.changeProductDiscount = formData => {
   }).then(res => res.json());
 };
 
-apiService.addProductStock = formData => {
+const addProductStock = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/product/stock`, {
     method: "POST",
@@ -110,7 +119,7 @@ apiService.addProductStock = formData => {
   }).then(res => res.json());
 };
 
-apiService.voidInvoice = formData => {
+const voidInvoice = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/invoice/void`, {
     method: "POST",
@@ -118,7 +127,7 @@ apiService.voidInvoice = formData => {
   }).then(res => res.json());
 };
 
-apiService.updateInvoiceItem = formData => {
+const updateInvoiceItem = formData => {
   setToken(formData);
   return fetch(`${serviceConfig.apiUrl}/invoice/update_item`, {
     method: "POST",
@@ -126,39 +135,61 @@ apiService.updateInvoiceItem = formData => {
   }).then(res => res.json());
 };
 
-apiService.getCategories = () => {
+const getCategories = () => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/categories?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.getSubCategories = () => {
+const getSubCategories = () => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/sub_categories?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.getUnits = () => {
+const getUnits = () => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/units?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.getPackagings = () => {
+const getPackagings = () => {
   let formData = setToken();
   return fetch(
     `${serviceConfig.apiUrl}/packagings?${setURLString(formData)}`
   ).then(res => res.json());
 };
 
-apiService.login = formData => {
+const loginRequest = formData => {
   return fetch(`${serviceConfig.apiUrl}/login`, {
     method: "POST",
     body: formData
   }).then(res => res.json());
 };
 
-export default apiService;
+export {
+  getProducts,
+  getInventories,
+  getInventory,
+  status,
+  saveProduct,
+  getInvoice,
+  getProduct,
+  getInvoices,
+  getInvoiceItems,
+  createInvoices,
+  updateInvoice,
+  changeProductPrice,
+  changeProductDiscount,
+  addProductStock,
+  voidInvoice,
+  updateInvoiceItem,
+  getCategories,
+  getSubCategories,
+  getUnits,
+  getPackagings,
+  loginRequest
+};

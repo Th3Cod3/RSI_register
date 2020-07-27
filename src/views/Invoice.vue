@@ -13,6 +13,7 @@
             v-if="!invoice.voided_by"
             @click="voidInvoice"
           >
+            <b-spinner small type="grow" v-show="isVoiding"></b-spinner>
             VOID
           </b-button>
           <span v-else class="font-weight-bold">VOIDED</span>
@@ -34,11 +35,12 @@
             type="number"
             @blur="saveEdit"
             @keyup.enter="saveEdit"
+            @keyup.esc="isEditing = false"
             v-model="newTotal"
           />
         </span>
         <span class="total" @click="editTotal" v-show="!isEditing">
-          <i class="fas fa-spinner fa-pulse" v-if="isSaving"></i>
+          <b-spinner small v-show="isSaving" type="grow"></b-spinner>
           Eindtotaal {{ invoice.total | roundMoney }}
         </span>
       </b-card-footer>
@@ -47,10 +49,9 @@
 </template>
 
 <script>
-import apiService from "@/services/api-service.js";
-import { NL_date } from "@/services/date.js";
 import invoiceItems from "@/components/Invoices/InvoiceItems";
 import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader";
+import { mapState } from "vuex";
 
 export default {
   data: () => ({
@@ -64,88 +65,41 @@ export default {
     PrintInvoiceHeader
   },
   computed: {
+    ...mapState("invoice", ["items", "invoice"]),
     totalInvoice() {
-      return this.$store.getters.totalInvoice;
-    },
-    invoice: {
-      get() {
-        return this.$store.state.invoice;
-      },
-      set(invoice) {
-        this.$store.commit("invoice", invoice);
-      }
-    },
-    invoiceItems: {
-      get() {
-        return this.$store.state.invoiceItems;
-      },
-      set(invoiceItems) {
-        this.$store.commit("invoiceItems", invoiceItems);
-      }
+      let total = 0;
+      this.items.forEach(item => {
+        total += (item.price / ((100 - item.discount) / 100)) * item.quantity;
+      });
+      return total;
     }
-  },
-  beforeDestroy() {
-    this.invoiceItems = [];
-    this.invoice = {};
   },
   created() {
-    if (this.$store.state.invoices) {
-      this.invoice = this.$store.state.invoices.find(
-        invoice => invoice.id === this.$route.params.id
-      );
-      this.$store.commit("invoiceInfo", {
-        invoiceNumber: this.invoice.invoice_number,
-        date: NL_date(this.invoice.created_at)
-      });
-      this.newTotal = this.invoice.total;
-    } else {
-      apiService
-        .getInvoice(this.$route.params.id)
-        .then(data => {
-          this.invoice = data;
-          this.newTotal = data.total;
-          this.$store.commit("invoiceInfo", {
-            invoiceNumber: data.invoice_number,
-            date: NL_date(data.created_at)
-          });
-        })
-        .finally(() => {
-          this.$store.commit("isLoading", false);
-        });
-    }
+    this.$store.dispatch("invoice/getInvoice", this.$route.params.id);
     let formData = new FormData();
     formData.set("filter_all", true);
     formData.set("invoice_id", this.$route.params.id);
-    apiService
-      .getInvoiceItems(formData)
-      .then(data => {
-        this.invoiceItems = data;
-      })
-      .finally(() => {
-        this.$store.commit("isLoading", false);
-      });
+    this.$store.dispatch("invoice/getItems", formData);
   },
   methods: {
     editTotal() {
       this.isEditing = true;
+      this.newTotal = this.invoice.total;
       setTimeout(() => {
         this.$refs.totalInvoice.focus();
       }, 0);
     },
     saveEdit() {
-      this.isEditing = false;
-      let formData = new FormData();
-      formData.append("id", this.invoice.id);
-      formData.append("total", this.newTotal);
-      this.isSaving = true;
-      apiService
-        .updateInvoice(formData)
-        .then(invoice => {
-          this.invoice = invoice;
-        })
-        .finally(() => {
+      if (this.isEditing && this.invoice.total == this.newTotal) {
+        this.isEditing = false;
+        let formData = new FormData();
+        formData.append("id", this.invoice.id);
+        formData.append("total", this.newTotal);
+        this.isSaving = true;
+        this.$store.dispatch("invoice/updateInvoice", formData).finally(() => {
           this.isSaving = false;
         });
+      }
     },
     voidInvoice() {
       this.$confirm("Are you sure you want to void?", "VOID?", "warning", {
@@ -155,14 +109,9 @@ export default {
           this.isVoiding = true;
           let formData = new FormData();
           formData.append("id", this.invoice.id);
-          apiService
-            .voidInvoice(formData)
-            .then(invoice => {
-              this.invoice = invoice;
-            })
-            .finally(() => {
-              this.isVoiding = false;
-            });
+          this.$store.dispatch("invoice/voidInvoice", formData).finally(() => {
+            this.isVoiding = false;
+          });
         })
         .catch(() => {});
     },

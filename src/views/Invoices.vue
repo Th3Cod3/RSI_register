@@ -5,9 +5,9 @@
     </b-card-header>
     <b-card-body>
       <b-table
-        striped
         hover
         sticky-header="70vh"
+        :busy="isLoading"
         :fields="fields"
         :items="invoices"
         @row-clicked="selectInvoice"
@@ -17,22 +17,8 @@
 </template>
 
 <script>
-import apiService from "@/services/api-service.js";
 import invoiceFilter from "@/components/Invoices/InvoiceFilter";
-const getInvoices = (component, reset = false) => {
-  component.page = reset ? 0 : component.page;
-  let formData = new FormData();
-  formData.append("page", component.page);
-  formData.append("invoice_number", component.invoiceNumber);
-  apiService
-    .getInvoices(formData)
-    .then(data => {
-      component.$store.commit("invoices", data);
-    })
-    .finally(() => {
-      component.$store.commit("isLoading", false);
-    });
-};
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -58,22 +44,7 @@ export default {
       }
     ]
   }),
-  computed: {
-    invoices() {
-      return this.$store.state.invoices;
-    },
-    invoiceNumber() {
-      return this.$store.state.invoiceFilter.invoiceNumber;
-    }
-  },
-  created() {
-    getInvoices(this);
-  },
-  watch: {
-    invoiceNumber() {
-      getInvoices(this, true);
-    }
-  },
+  computed: mapState("invoice", ["invoices", "isLoading"]),
   methods: {
     filterMoney(value) {
       return this.$options.filters.money(value);

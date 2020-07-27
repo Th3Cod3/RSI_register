@@ -2,7 +2,7 @@
   <b-col md="12" lg="8" class="d-print-none">
     <b-card no-body class="body-height box-shadow">
       <b-card-header>
-        <search-menu />
+        <product-filter />
       </b-card-header>
       <b-card-body class="product-list-container">
         <product-list-container />
@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import SearchMenu from "@/components/ProductsCard/SearchMenu";
+import ProductFilter from "@/components/ProductsCard/ProductFilter";
 import ProductListContainer from "@/components/ProductsCard/ProductListContainer";
 
 export default {
   name: "ProductContainer",
   components: {
-    SearchMenu,
+    ProductFilter,
     ProductListContainer
   }
 };

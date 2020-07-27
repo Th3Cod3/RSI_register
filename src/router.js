@@ -1,13 +1,15 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "@/store.js";
+import store from "@/store/index.js";
 
 import Shop from "@/views/Shop";
 import Error from "@/views/Error";
 import Invoices from "@/views/Invoices";
 import Invoice from "@/views/Invoice";
+import Jobs from "@/views/Jobs";
 import Inventory from "@/views/Inventory";
 import Product from "@/views/Product";
+import Login from "@/views/Login";
 
 Vue.use(Router);
 
@@ -16,15 +18,25 @@ let router = new Router({
 
   routes: [
     {
-      path: "/",
-      name: "shop",
-      component: Shop,
+      path: "/login",
+      name: "login",
+      component: Login,
       meta: {
         isPublic: true
       }
     },
     {
-      path: "/invoices",
+      path: "/shop/:id",
+      name: "shop",
+      component: Shop
+    },
+    {
+      path: "/Jobs",
+      name: "jobs",
+      component: Jobs
+    },
+    {
+      path: "/invoices/:id",
       name: "invoices",
       component: Invoices
     },
@@ -34,7 +46,7 @@ let router = new Router({
       component: Invoice
     },
     {
-      path: "/inventory",
+      path: "/inventory/:id",
       name: "inventory",
       component: Inventory
     },
@@ -50,13 +62,14 @@ let router = new Router({
     }
   ]
 });
+
 const isAuthenticated = () => {
-  return store.state.isLogin;
+  return store.state.user.isLogin;
 };
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.isPublic && !isAuthenticated()) {
-    next({ name: "shop" });
+    next({ name: "login" });
   } else {
     next();
   }

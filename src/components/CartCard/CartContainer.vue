@@ -9,7 +9,7 @@
               type="button"
               varient="danger"
               @click="clearCart"
-              :disabled="!items.length || loading"
+              :disabled="!selectedItems.length || loading"
             >
               Clear
             </b-button>
@@ -17,7 +17,7 @@
         </span>
       </b-card-header>
       <b-card-body class="cart-items-container">
-        <div v-if="items.length">
+        <div v-if="selectedItems.length">
           <table class="table table-sm">
             <thead class="thead-dark">
               <tr>
@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <cart-detail
-              v-for="item in items"
+              v-for="item in selectedItems"
               :key="'c' + item.id"
               :product="item"
             />
@@ -51,7 +51,6 @@
                 <input
                   type="number"
                   class="form-control"
-                  @input="updatePaidAmount"
                   v-model="paidAmount"
                 />
                 <div class="d-print-block d-none">
@@ -75,7 +74,7 @@
         <button
           type="button"
           class="btn btn-success d-print-none btn-block"
-          v-if="isLogin && !saved && items.length > 0"
+          v-if="isLogin && !saved && selectedItems.length > 0"
           @click="saveInvoice"
           :disabled="loading"
         >
@@ -93,47 +92,55 @@
 
 <script>
 import CartDetail from "@/components/CartCard/CartDetail";
-import apiService from "@/services/api-service.js";
+import { mapState } from "vuex";
 
 export default {
   data: () => ({
     loading: false,
     paidAmount: 0,
+    total: 0,
+    totalFullPrice: 0,
     saved: false
   }),
   components: {
     CartDetail
   },
   computed: {
-    items() {
-      return this.$store.state.selectedItems;
-    },
-    total() {
-      return this.$store.getters.total;
-    },
-    totalFullPrice() {
-      return this.$store.getters.totalFullPrice;
+    ...mapState("user", ["isLogin"]),
+    ...mapState("shop", ["selectedItems"]),
+    ...mapState("inventory", {
+      inventory_id: state => state.inventory.inventory_id
+    }),
+    change() {
+      if (this.paidAmount < this.total) {
+        return 0;
+      }
+      return this.paidAmount - this.total;
     },
     totalDiscount() {
-      return this.$store.getters.totalDiscount;
-    },
-    isLogin() {
-      return this.$store.state.isLogin;
-    },
-    change() {
-      return this.$store.getters.change;
+      return this.totalFullPrice - this.total;
+    }
+  },
+  watch: {
+    selectedItems() {
+      let total = 0;
+      let totalFullPrice = 0;
+      this.selectedItems.forEach(item => {
+        let discount = (100 - item.discount) / 100;
+        totalFullPrice += item.price * item.quantity;
+        total += item.price * discount * item.quantity;
+      });
+      this.total = total;
+      this.totalFullPrice = totalFullPrice;
     }
   },
   methods: {
-    updatePaidAmount() {
-      this.$store.commit("paidAmount", this.paidAmount);
-    },
-    saveInvoice() {
-      this.loading = true;
+    generateFormData() {
       let formData = new FormData();
-      formData.set("total", this.$store.getters.total);
+      formData.set("total", this.total);
+      formData.set("inventory_id", this.inventory_id);
       let count = 0;
-      this.items.forEach(item => {
+      this.selectedItems.forEach(item => {
         formData.set(`items[${count}][item_id]`, item.id);
         formData.set(`items[${count}][quantity]`, item.quantity);
         formData.set(
@@ -143,17 +150,15 @@ export default {
         formData.set(`items[${count}][discount]`, item.discount);
         count++;
       });
-      apiService
-        .createInvoices(formData)
-        .then(data => {
-          if (data.invoice_number) {
+      return formData;
+    },
+    saveInvoice() {
+      this.loading = true;
+      this.$store
+        .dispatch("shop/submitCarShop", this.generateFormData())
+        .then(response => {
+          if (response.saved) {
             this.saved = true;
-            this.$store.commit("invoiceInfo", {
-              invoiceNumber: data.invoice_number,
-              date: data.date
-            });
-          } else {
-            alert("fail");
           }
         })
         .finally(() => {
@@ -165,7 +170,7 @@ export default {
         confirmButtonText: "Yes"
       }).then(() => {
         this.saved = false;
-        this.$store.commit("restoreInvoice");
+        this.$store.commit("shop/RESTORE_CAR_SHOP");
       });
     }
   }

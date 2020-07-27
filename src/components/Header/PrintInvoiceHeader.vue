@@ -20,7 +20,12 @@
         <tr>
           <td>Plaats van verkoop:</td>
           <td class="font-weight-bold">
-            L.G. smith boulevard # 152, Oranjestad, Aruba (KH Super Center N.V.)
+            <span v-if="inventory.inventory_of.address">
+              {{ inventory.inventory_of.address.street_name }} #
+              {{ inventory.inventory_of.address.house_number }},
+              {{ inventory.inventory_of.address.country_name_en }}
+            </span>
+            ({{ inventory.inventory_of.handle_name }})
           </td>
         </tr>
       </table>
@@ -29,15 +34,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "PrintInvoiceHEader",
   computed: {
-    invoiceNumber() {
-      return this.$store.state.invoiceInfo.invoiceNumber;
-    },
-    date() {
-      return this.$store.state.invoiceInfo.date;
-    }
+    ...mapState("shop", ["invoiceNumber", "date"]),
+    ...mapState("inventory", ["inventory"])
   }
 };
 </script>

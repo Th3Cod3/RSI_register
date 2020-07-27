@@ -2,7 +2,7 @@
   <b-row>
     <b-col xl="3" md="6" sm="12">
       <b-form-group label="Product name">
-        <input type="text" class="form-control" v-model="productName" />
+        <input type="text" class="form-control" v-model="name" />
       </b-form-group>
     </b-col>
     <b-col xl="3" md="6" sm="12">
@@ -26,56 +26,71 @@
     </b-col>
     <b-col v-else>
       <div class="float-right">
-        <b-button
-          variant="success"
-          v-b-tooltip.hover.bottom
-          title="Add product"
-          @click="createProduct"
-        >
-          <i class="fas fa-plus fa-2x"></i>
-        </b-button>
+        <add-product />
       </div>
     </b-col>
   </b-row>
 </template>
 
 <script>
+import AddProduct from "@/components/Products/AddProduct";
+import { mapState } from "vuex";
+
 export default {
   props: {
     shop: {
       type: Boolean,
       default: true
+    },
+    order: {
+      type: String,
+      default: ""
+    },
+    extraInfo: {
+      type: Boolean,
+      default: false
     }
   },
-  name: "SearchMenu",
+  name: "ProductFilter",
+  data: () => ({
+    name: "",
+    barcode: ""
+  }),
   computed: {
-    productName: {
-      get() {
-        return this.$store.state.productFilter.productName;
-      },
-      set(value) {
-        this.$store.commit("productFilter_productName", value);
-      }
+    ...mapState("inventory", {
+      inventory_id: state => state.inventory.inventory_id
+    })
+  },
+  components: {
+    AddProduct
+  },
+  watch: {
+    barcode() {
+      this.submit();
     },
-    barcode: {
-      get() {
-        return this.$store.state.productFilter.barcode;
-      },
-      set(value) {
-        this.$store.commit("productFilter_barcode", value);
-      }
+    name() {
+      this.submit();
     }
+  },
+  created() {
+    this.submit();
   },
   methods: {
+    submit() {
+      let formData = new FormData();
+      this.extraInfo ? formData.set("extra-info", true) : null;
+      this.order ? formData.set("order", this.order) : null;
+      formData.set("name", this.name);
+      formData.set("inventory_id", this.inventory_id);
+      formData.set("barcode", this.barcode);
+      this.$store.dispatch("product/getProducts", formData);
+    },
     clearSearch() {
-      this.productName = "";
+      this.name = "";
       this.barcode = "";
     },
     removeBarcodeSides() {
       this.barcode = this.barcode.substring(this.barcode.length - 1, 1);
-    },
-    createProduct() {
-      this.$store.commit("openModal", "add-product");
     }
   }
 };

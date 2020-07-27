@@ -1,15 +1,33 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand to="/">RSI</b-navbar-brand>
+    <b-navbar-brand to="/jobs">RSI</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/inventory" v-if="isLogin">
+        <b-nav-item to="/jobs" active-class="active">
+          Jobs
+        </b-nav-item>
+        <b-nav-item
+          :to="{ name: 'shop', params: { id: inventory_id } }"
+          active-class="active"
+          v-if="isJobChoosed"
+        >
+          Shop
+        </b-nav-item>
+        <b-nav-item
+          :to="{ name: 'inventory', params: { id: inventory_id } }"
+          active-class="active"
+          v-if="isJobChoosed"
+        >
           Inventaris
         </b-nav-item>
-        <b-nav-item to="/invoices" v-if="isLogin">
+        <b-nav-item
+          :to="{ name: 'invoices', params: { id: inventory_id } }"
+          active-class="active"
+          v-if="isJobChoosed"
+        >
           Facturen
         </b-nav-item>
       </b-navbar-nav>
@@ -18,39 +36,34 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown right v-if="isLogin">
           <template v-slot:button-content>
-            <em>{{ user }}</em>
+            <em>{{ username }}</em>
           </template>
-          <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
           <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
-        <login-dropdown v-else />
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
-import LoginDropdown from "@/components/Header/LoginDropdown";
+import { mapState } from "vuex";
+
 export default {
   name: "TopHeader",
-  components: {
-    LoginDropdown
-  },
   computed: {
-    isLogin() {
-      return this.$store.state.isLogin;
-    },
-    user() {
-      return this.$store.state.login.user;
+    ...mapState("inventory", {
+      inventory_id: state => state.inventory.inventory_id
+    }),
+    ...mapState("user", ["isLogin", "username"]),
+    isJobChoosed() {
+      return this.isLogin && this.inventory_id;
     }
   },
   methods: {
     logout() {
-      this.$store.commit("logout");
-      this.$router.push({ name: "shop" });
+      this.$store.dispatch("user/logout");
+      this.$router.push({ name: "login" });
     }
   }
 };
 </script>
-
-<style></style>

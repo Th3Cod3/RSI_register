@@ -1,6 +1,6 @@
 <template>
   <div>
-    <top-header />
+    <top-header v-if="isLogin" />
     <b-container fluid>
       <transition name="router">
         <router-view />
@@ -11,11 +11,15 @@
 
 <script>
 import TopHeader from "@/components/Header/TopHeader";
+import { mapState } from "vuex";
 
 export default {
   name: "App",
   components: {
     TopHeader
+  },
+  computed: {
+    ...mapState("user", ["isLogin"])
   }
 };
 </script>

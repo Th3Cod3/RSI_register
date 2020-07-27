@@ -23,13 +23,10 @@ Vue.use(IconsPlugin);
 Vue.use(BootstrapVue);
 Vue.use(VueSimpleAlert);
 
-import store from "@/store.js";
+import store from "@/store/index.js";
 
 new Vue({
   store,
   router,
-  beforeCreate() {
-    this.$store.commit("initializeStore");
-  },
   render: h => h(App)
 }).$mount("#app");

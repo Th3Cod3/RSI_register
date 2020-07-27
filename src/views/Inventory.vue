@@ -1,13 +1,13 @@
 <template>
   <b-card no-body class="body-height box-shadow">
     <b-card-header>
-      <search-menu :shop="false" />
+      <product-filter :shop="false" order="created_at_desc" extraInfo />
     </b-card-header>
     <b-card-body>
       <b-table
-        striped
         hover
         sticky-header="70vh"
+        :busy="isLoading"
         :fields="fields"
         :items="products"
         @row-clicked="selectProduct"
@@ -18,37 +18,16 @@
         </template>
       </b-table>
     </b-card-body>
-    <add-product />
   </b-card>
 </template>
 
 <script>
-import apiService from "@/services/api-service.js";
-import SearchMenu from "@/components/ProductsCard/SearchMenu";
-import AddProduct from "@/components/Products/AddProduct";
-
-const getProducts = (component, reset = false) => {
-  component.page = reset ? 0 : component.page;
-  let formData = new FormData();
-  formData.set("extra-info", true);
-  formData.set("order", "created_at_desc");
-  formData.set("page", component.page);
-  formData.set("barcode", component.barcode);
-  formData.set("name", component.productName);
-  apiService
-    .getProducts(formData)
-    .then(data => {
-      component.$store.commit("items", data);
-    })
-    .finally(() => {
-      component.$store.commit("isLoading", false);
-    });
-};
+import { mapState } from "vuex";
+import ProductFilter from "@/components/ProductsCard/ProductFilter";
 
 export default {
   components: {
-    SearchMenu,
-    AddProduct
+    ProductFilter
   },
   data: () => ({
     page: 0,
@@ -72,34 +51,9 @@ export default {
     ]
   }),
   computed: {
-    products() {
-      return this.$store.state.items;
-    },
-    productName() {
-      return this.$store.state.productFilter.productName;
-    },
-    barcode() {
-      return this.$store.state.productFilter.barcode;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
-    }
-  },
-  created() {
-    getProducts(this);
-  },
-  watch: {
-    barcode() {
-      getProducts(this, true);
-    },
-    productName() {
-      getProducts(this, true);
-    }
+    ...mapState("product", ["products", "isLoading"])
   },
   methods: {
-    filterMoney(value) {
-      return this.$options.filters.money(value);
-    },
     selectProduct(product) {
       this.$router.push({ name: "product", params: { id: product.id } });
     }

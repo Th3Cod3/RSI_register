@@ -28,7 +28,7 @@ export default {
   props: ["item"],
   methods: {
     addItem() {
-      this.$store.commit("addItemToCart", this.item);
+      this.$store.commit("shop/ADD_ITEM", this.item);
     }
   }
 };

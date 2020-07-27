@@ -9,16 +9,33 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "InvoiceFilter",
+  data: () => ({
+    invoiceNumber: "",
+    page: 0
+  }),
   computed: {
-    invoiceNumber: {
-      get() {
-        return this.$store.state.invoiceFilter.invoiceNumber;
-      },
-      set(value) {
-        this.$store.commit("invoiceFilter_invoiceNumber", value);
-      }
+    ...mapState("inventory", {
+      inventory_id: state => state.inventory.inventory_id
+    })
+  },
+  created() {
+    this.getInvoices();
+  },
+  watch: {
+    invoiceNumber() {
+      this.getInvoices();
+    }
+  },
+  methods: {
+    getInvoices() {
+      let formData = new FormData();
+      formData.append("page", this.page);
+      formData.append("invoice_number", this.invoiceNumber);
+      formData.append("inventory_id", this.inventory_id);
+      this.$store.dispatch("invoice/getInvoices", formData);
     }
   }
 };
