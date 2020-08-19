@@ -59,15 +59,15 @@
               </div>
             </span>
             <span class="float-right text-right total-summary">
-              <span>Totaal {{ totalFullPrice | money }}</span>
+              <span>Totale verkoopprijs {{ totalFullPrice | money }}</span>
               <br /><span> Korting {{ totalDiscount | money }}</span>
-              <br /><span class="total">
-                Eindtotaal {{ total | roundMoney }}</span
-              >
+              <br /><span>Totaal {{ total | money }}</span>
               <br />
-              <span class="d-print-none total"
-                >Restitutie {{ change | roundMoney }}</span
-              >
+              <span class="total"> Eindtotaal {{ total | roundMoney }}</span>
+              <br />
+              <span class="d-print-none total">
+                Restitutie {{ change | roundMoney }}
+              </span>
             </span>
           </div>
         </div>
@@ -123,6 +123,11 @@ export default {
   },
   watch: {
     selectedItems() {
+      this.updateSum();
+    }
+  },
+  methods: {
+    updateSum() {
       let total = 0;
       let totalFullPrice = 0;
       this.selectedItems.forEach(item => {
@@ -132,9 +137,7 @@ export default {
       });
       this.total = total;
       this.totalFullPrice = totalFullPrice;
-    }
-  },
-  methods: {
+    },
     generateFormData() {
       let formData = new FormData();
       formData.set("total", this.total);

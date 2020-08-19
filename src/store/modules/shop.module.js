@@ -24,13 +24,17 @@ export default {
       if (payload.quantity == 0) {
         state.selectedItems.splice(index, 1);
       } else {
-        state.selectedItems[index].quantity = payload.quantity;
+        let product = state.selectedItems[index];
+        product.quantity = payload.quantity;
+        state.selectedItems.splice(index, 1, product);
       }
     },
     ADD_ITEM(state, product) {
-      let item = state.selectedItems.findIndex(item => item.id === product.id);
-      if (item !== -1) {
-        state.selectedItems[item].quantity++;
+      let index = state.selectedItems.findIndex(item => item.id === product.id);
+      if (index !== -1) {
+        let product = state.selectedItems[index];
+        product.quantity++;
+        state.selectedItems.splice(index, 1, product);
       } else {
         state.selectedItems.unshift({
           ...product,
