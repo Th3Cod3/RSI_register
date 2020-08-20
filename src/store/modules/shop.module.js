@@ -29,6 +29,19 @@ export default {
         state.selectedItems.splice(index, 1, product);
       }
     },
+    CHANGE_FIXED_PRICE(state, payload) {
+      let index = state.selectedItems.findIndex(item => item.id === payload.id);
+      if (payload.price != state.selectedItems[index].price) {
+        let product = state.selectedItems[index];
+        product = {
+          ...product,
+          price: payload.price,
+          discount: 0,
+          fixed: 1
+        };
+        state.selectedItems.splice(index, 1, product);
+      }
+    },
     ADD_ITEM(state, product) {
       let index = state.selectedItems.findIndex(item => item.id === product.id);
       if (index !== -1) {

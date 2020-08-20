@@ -8,7 +8,7 @@
       {{ product.discount }}%
     </td>
     <td class="text-right d-none d-print-table-cell">
-      {{ discountPrice | money }}
+      {{ priceEach | money }}
     </td>
     <td class="text-right">
       <span v-show="!changeAmount" @click="changeAmount = true">{{
@@ -18,7 +18,7 @@
         <div class="d-print-none">
           <input
             type="number"
-            class="amount"
+            id="cart-item-amount"
             @blur="updateAmount"
             @keydown.enter="updateAmount"
             @keydown.esc="changeAmount = false"
@@ -28,7 +28,21 @@
       </span>
     </td>
     <td class="text-right">
-      {{ salePrice | money }}
+      <span v-show="!changePrice" @click="changePrice = true">{{
+        salePrice | money
+      }}</span>
+      <span v-show="changePrice">
+        <div class="d-print-none">
+          <input
+            type="number"
+            id="cart-item-price"
+            @blur="updatePrice"
+            @keydown.enter="updatePrice"
+            @keydown.esc="changePrice = false"
+            v-model="inputPrice"
+          />
+        </div>
+      </span>
     </td>
   </tr>
 </template>
@@ -38,7 +52,9 @@ export default {
   props: ["product"],
   data: () => ({
     changeAmount: false,
-    inputAmount: 0
+    changePrice: false,
+    inputAmount: 0,
+    inputPrice: 0
   }),
   computed: {
     discount() {
@@ -59,7 +75,15 @@ export default {
       if (value && !oldValue) {
         this.inputAmount = this.product.quantity;
         setTimeout(() => {
-          this.$el.querySelector("input").focus();
+          this.$el.querySelector("#cart-item-amount").focus();
+        }, 0);
+      }
+    },
+    changePrice(value, oldValue) {
+      if (value && !oldValue) {
+        this.inputPrice = this.salePrice.toFixed(4);
+        setTimeout(() => {
+          this.$el.querySelector("#cart-item-price").focus();
         }, 0);
       }
     }
@@ -71,6 +95,15 @@ export default {
         this.$store.commit("shop/CHANGE_QUANTITY", {
           id: this.product.id,
           quantity: this.inputAmount
+        });
+      }
+    },
+    updatePrice() {
+      if (this.changePrice) {
+        this.changePrice = false;
+        this.$store.commit("shop/CHANGE_FIXED_PRICE", {
+          id: this.product.id,
+          price: this.inputPrice / this.product.quantity
         });
       }
     }

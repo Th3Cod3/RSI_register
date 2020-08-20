@@ -146,6 +146,7 @@ export default {
       this.selectedItems.forEach(item => {
         formData.set(`items[${count}][item_id]`, item.id);
         formData.set(`items[${count}][quantity]`, item.quantity);
+        formData.set(`items[${count}][fixed]`, item.fixed ? 1 : 0);
         formData.set(
           `items[${count}][price]`,
           item.price * ((100 - item.discount) / 100)
