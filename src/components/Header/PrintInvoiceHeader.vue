@@ -22,7 +22,7 @@
           <td class="font-weight-bold">
             <span v-if="inventory.inventory_of.address">
               {{ inventory.inventory_of.address.street_name }} #
-              {{ inventory.inventory_of.address.house_number }},
+              {{ inventory.inventory_of.address.address_no }},
               {{ inventory.inventory_of.address.country_name_en }}
             </span>
             ({{ inventory.inventory_of.handle_name }})
