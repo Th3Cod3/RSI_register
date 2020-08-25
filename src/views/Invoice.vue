@@ -90,15 +90,19 @@ export default {
       }, 0);
     },
     saveEdit() {
-      if (this.isEditing && this.invoice.total == this.newTotal) {
+      if (this.isEditing) {
         this.isEditing = false;
-        let formData = new FormData();
-        formData.append("id", this.invoice.id);
-        formData.append("total", this.newTotal);
-        this.isSaving = true;
-        this.$store.dispatch("invoice/updateInvoice", formData).finally(() => {
-          this.isSaving = false;
-        });
+        if (this.invoice.total != this.newTotal) {
+          let formData = new FormData();
+          formData.append("id", this.invoice.id);
+          formData.append("total", this.newTotal);
+          this.isSaving = true;
+          this.$store
+            .dispatch("invoice/updateInvoice", formData)
+            .finally(() => {
+              this.isSaving = false;
+            });
+        }
       }
     },
     voidInvoice() {

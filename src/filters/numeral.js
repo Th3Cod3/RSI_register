@@ -1,4 +1,5 @@
 import numeral from "numeral";
+
 numeral.register("locale", "aw", {
   delimiters: {
     thousands: ",",

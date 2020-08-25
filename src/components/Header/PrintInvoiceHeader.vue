@@ -8,8 +8,14 @@
       />
     </div>
     <div class="invoice-info mt-4">
-      <span>Factuurnummer: {{ invoiceNumber }}</span>
-      <span class="float-right">Factuurdatum: {{ date }}</span>
+      <span>
+        Factuurnummer:
+        {{ invoiceNumber ? invoiceNumber : invoice.invoice_number }}
+      </span>
+      <span class="float-right">
+        Factuurdatum:
+        {{ (date ? date : invoice.created_at) | date }}
+      </span>
     </div>
     <div class="my-2">
       <table class="table table-sm table-borderless">
@@ -40,6 +46,7 @@ export default {
   name: "PrintInvoiceHEader",
   computed: {
     ...mapState("shop", ["invoiceNumber", "date"]),
+    ...mapState("invoice", ["invoice"]),
     ...mapState("inventory", ["inventory"])
   }
 };

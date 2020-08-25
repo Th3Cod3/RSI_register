@@ -5,6 +5,7 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
+import { dateFilter } from "@/filters/moment";
 import {
   dollarFilter,
   dollarRoundFilter,
@@ -16,6 +17,7 @@ import App from "./App.vue";
 Vue.config.productionTip = false;
 
 Vue.filter("money", dollarFilter);
+Vue.filter("date", dateFilter);
 Vue.filter("roundMoney", dollarRoundFilter);
 Vue.filter("round", roundFilter);
 
