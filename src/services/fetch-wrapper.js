@@ -7,19 +7,7 @@ import {
 import store from "@/store/index.js";
 import router from "@/router";
 
-const requestJSON = (request, options = {}) => {
-  return fetch(`${apiUrl}/${request}`, {
-    ...options
-  }).then(res => {
-    if (res.status == 200) {
-      return res.json();
-    } else {
-      throw res;
-    }
-  });
-};
-
-const requestAuthJSON = (request, options = {}) => {
+const preProcessOptions = options => {
   const header = {
     Authorization: "Bearer " + store.state.user.token,
     "Access-Control-Request-Headers": accessControlHeader,
@@ -36,9 +24,32 @@ const requestAuthJSON = (request, options = {}) => {
       ...header
     };
   }
-  return fetch(`${apiUrl}/${request}`, {
+
+  options = {
     mode: "cors",
     credentials: "include",
+    ...options
+  };
+
+  return options;
+};
+
+const requestJSON = (request, options = {}) => {
+  options = preProcessOptions(options);
+  return fetch(`${apiUrl}/${request}`, {
+    ...options
+  }).then(res => {
+    if (res.status == 200) {
+      return res.json();
+    } else {
+      throw res;
+    }
+  });
+};
+
+const requestAuthJSON = (request, options = {}) => {
+  options = preProcessOptions(options);
+  return fetch(`${apiUrl}/${request}`, {
     ...options
   }).then(res => {
     if (res.status == 200) {
