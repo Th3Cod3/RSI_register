@@ -1,0 +1,13 @@
+<template>
+  <div>
+    LOGOUT
+  </div>
+</template>
+<script>
+export default {
+  created() {
+    this.$store.dispatch("user/logout");
+    this.$router.push({ name: "login" });
+  }
+};
+</script>

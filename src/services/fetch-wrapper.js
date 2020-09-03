@@ -5,6 +5,7 @@ import {
   accessControlMethods
 } from "@/services/config.js";
 import store from "@/store/index.js";
+import router from "@/router";
 
 const requestJSON = (request, options = {}) => {
   return fetch(`${apiUrl}/${request}`, {
@@ -39,7 +40,16 @@ const requestAuthJSON = (request, options = {}) => {
     mode: "cors",
     credentials: "include",
     ...options
-  }).then(res => res.json());
+  }).then(res => {
+    if (res.status == 200) {
+      return res.json();
+    } else if (res.status == 401) {
+      router.push({ name: "logout" });
+      throw res;
+    } else {
+      throw res;
+    }
+  });
 };
 
 const setURLString = formData => {

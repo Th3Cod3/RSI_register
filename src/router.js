@@ -10,6 +10,7 @@ import Jobs from "@/views/Jobs";
 import Inventory from "@/views/Inventory";
 import Product from "@/views/Product";
 import Login from "@/views/Login";
+import Logout from "@/views/Logout";
 
 Vue.use(Router);
 
@@ -21,6 +22,14 @@ let router = new Router({
       path: "/login",
       name: "login",
       component: Login,
+      meta: {
+        isPublic: true
+      }
+    },
+    {
+      path: "/logout",
+      name: "logout",
+      component: Logout,
       meta: {
         isPublic: true
       }
