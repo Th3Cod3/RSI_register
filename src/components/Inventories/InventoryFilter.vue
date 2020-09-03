@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "ProductFilter",
+  name: "InventoryFilter",
   data: () => ({
     name: "",
     barcode: ""

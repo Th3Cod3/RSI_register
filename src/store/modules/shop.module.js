@@ -1,4 +1,4 @@
-import { createInvoices } from "@/services/api-service";
+import { createInvoices } from "@/services/api/invoices";
 
 export default {
   namespaced: true,
@@ -7,17 +7,20 @@ export default {
     selectedItems: [],
     paidAmount: "",
     invoiceNumber: "",
-    date: ""
+    date: "",
+    checkout: false
   },
   mutations: {
     RESTORE_CAR_SHOP(state) {
       state.selectedItems = [];
       state.invoiceNumber = "";
       state.date = "";
+      state.checkout = false;
     },
     SUCCESS_INVOICE(state, invoice) {
       state.invoiceNumber = invoice.invoiceNumber;
       state.date = invoice.date;
+      state.checkout = true;
     },
     CHANGE_QUANTITY(state, payload) {
       let index = state.selectedItems.findIndex(item => item.id === payload.id);

@@ -79,13 +79,16 @@ export default {
     updateItem(data) {
       if (this.editQuantityId) {
         this.editQuantityId = false;
-        this.isSaving = true;
-        let formData = new FormData();
-        formData.append("id", data.id);
-        formData.append("quantity", this.$refs[`item-${data.id}`].value);
-        this.$store.dispatch("invoice/updateItem", formData).finally(() => {
-          this.isSaving = false;
-        });
+        let newQuantity = this.$refs[`item-${data.id}`].value;
+        if (data.quantity != newQuantity) {
+          this.isSaving = true;
+          let formData = new FormData();
+          formData.append("id", data.id);
+          formData.append("quantity", newQuantity);
+          this.$store.dispatch("invoice/updateItem", formData).finally(() => {
+            this.isSaving = false;
+          });
+        }
       }
     },
     editQuantity(id) {

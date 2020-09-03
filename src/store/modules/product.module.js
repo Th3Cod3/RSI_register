@@ -2,14 +2,16 @@ import {
   getCategories,
   getSubCategories,
   getUnits,
-  getPackagings,
+  getPackagings
+} from "@/services/api/generic";
+import {
   saveProduct,
   getProduct,
   getProducts,
   changeProductPrice,
   changeProductDiscount,
   addProductStock
-} from "@/services/api-service";
+} from "@/services/api/products";
 
 export default {
   namespaced: true,

@@ -1,4 +1,4 @@
-import { loginRequest, status } from "@/services/api-service.js";
+import { loginRequest, status } from "@/services/api/login.js";
 
 export default {
   namespaced: true,
@@ -8,9 +8,16 @@ export default {
     username: "",
     permissions: {},
     isLogin: false,
+    isLoading: false,
     isInitialize: false
   },
   mutations: {
+    MAKE_REQUEST(state, value) {
+      state.isLoading = value;
+      if (value) {
+        state.requestId++;
+      }
+    },
     LOGOUT(state) {
       state.isLogin = false;
       state.username = "";
@@ -32,15 +39,20 @@ export default {
   },
   actions: {
     login({ commit }, formData) {
-      return loginRequest(formData).then(response => {
-        if (response.api_token) {
-          commit("SUCCESS_LOGIN", {
-            token: response.api_token,
-            username: formData.get("user")
-          });
-        }
-        return response;
-      });
+      commit("MAKE_REQUEST", true);
+      return loginRequest(formData)
+        .then(response => {
+          if (response.api_token) {
+            commit("SUCCESS_LOGIN", {
+              token: response.api_token,
+              username: formData.get("user")
+            });
+          }
+          return response;
+        })
+        .finally(() => {
+          commit("MAKE_REQUEST", false);
+        });
     },
     initialize({ commit }) {
       let token = localStorage.getItem("token");

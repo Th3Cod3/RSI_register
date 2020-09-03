@@ -1,4 +1,4 @@
-import { getInventories, getInventory } from "@/services/api-service.js";
+import { getInventories, getInventory } from "@/services/api/inventories.js";
 
 export default {
   namespaced: true,

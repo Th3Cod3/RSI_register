@@ -1,7 +1,12 @@
 <template>
   <b-row>
     <b-col v-if="!isLoading" cols="12">
-      <item-detail v-for="item in products" :item="item" :key="item.id" />
+      <item-detail
+        v-for="item in products"
+        :item="item"
+        :key="item.id"
+        :disabled="checkout"
+      />
     </b-col>
     <b-col v-else cols="12">
       <i class="fas fa-spinner fa-pulse"></i>
@@ -19,7 +24,8 @@ export default {
     ItemDetail
   },
   computed: {
-    ...mapState("product", ["products", "isLoading"])
+    ...mapState("product", ["products", "isLoading"]),
+    ...mapState("shop", ["checkout"])
   }
 };
 </script>

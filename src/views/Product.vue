@@ -92,21 +92,21 @@
         </b-card-body>
       </b-card>
     </b-col>
-    <b-col md="12" lg="4">
+    <b-col md="12" lg="4" v-if="false">
       <b-card class="body-height box-shadow mb-2 p-3">
         <div class="chart-container">
           <line-chart :chartData="pricesCollection" :options="options" />
         </div>
       </b-card>
     </b-col>
-    <b-col md="12" lg="4">
+    <b-col md="12" lg="4" v-if="false">
       <b-card class="body-height box-shadow mb-2 p-3">
         <div class="chart-container">
           <line-chart :chartData="discountCollection" :options="options" />
         </div>
       </b-card>
     </b-col>
-    <b-col md="12" lg="4">
+    <b-col md="12" lg="4" v-if="false">
       <b-card class="body-height box-shadow mb-2 p-3">
         <div class="chart-container">
           <bar-chart :chartData="salesCollection" :options="options" />

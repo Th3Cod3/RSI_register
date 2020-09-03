@@ -5,9 +5,7 @@ import {
   updateInvoice,
   voidInvoice,
   updateInvoiceItem
-} from "@/services/api-service.js";
-
-// import { NL_date } from "@/services/date.js";
+} from "@/services/api/invoices";
 
 export default {
   namespaced: true,

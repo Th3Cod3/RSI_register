@@ -14,7 +14,12 @@
     </b-col>
     <b-col cols="2">
       <b-button-group class="mr-2 float-right">
-        <b-button variant="primary" type="button" @click="addItem">
+        <b-button
+          variant="primary"
+          type="button"
+          @click="addItem"
+          :disabled="disabled"
+        >
           <i class="fas fa-plus fa-2x"></i>
         </b-button>
       </b-button-group>
@@ -25,7 +30,7 @@
 <script>
 export default {
   name: "ItemDetail",
-  props: ["item"],
+  props: ["item", "disabled"],
   methods: {
     addItem() {
       this.$store.commit("shop/ADD_ITEM", this.item);

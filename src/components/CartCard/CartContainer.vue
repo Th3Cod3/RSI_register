@@ -71,20 +71,21 @@
             </span>
           </div>
         </div>
-        <button
-          type="button"
-          class="btn btn-success d-print-none btn-block"
-          v-if="isLogin && !saved && selectedItems.length > 0"
-          @click="saveInvoice"
-          :disabled="loading"
-        >
-          Checkout
-        </button>
-        <div v-else-if="isLogin && saved" class="btn-group d-print-none">
+        <div v-if="checkout" class="btn-group d-print-none">
           <button type="button" class="btn btn-primary" onclick="print()">
             Afdrukken
           </button>
         </div>
+        <button
+          type="button"
+          class="btn btn-success d-print-none btn-block"
+          v-else-if="selectedItems.length > 0"
+          @click="saveInvoice"
+          :disabled="loading"
+        >
+          <b-spinner small type="grow" v-show="loading"></b-spinner>
+          Checkout
+        </button>
       </b-card-footer>
     </b-card>
   </b-col>
@@ -99,15 +100,17 @@ export default {
     loading: false,
     paidAmount: 0,
     total: 0,
-    totalFullPrice: 0,
-    saved: false
+    totalFullPrice: 0
   }),
   components: {
     CartDetail
   },
+  created() {
+    this.updateSum();
+  },
   computed: {
-    ...mapState("user", ["isLogin"]),
     ...mapState("shop", ["selectedItems"]),
+    ...mapState("shop", ["checkout"]),
     ...mapState("inventory", {
       inventory_id: state => state.inventory.inventory_id
     }),
@@ -160,11 +163,6 @@ export default {
       this.loading = true;
       this.$store
         .dispatch("shop/submitCarShop", this.generateFormData())
-        .then(response => {
-          if (response.saved) {
-            this.saved = true;
-          }
-        })
         .finally(() => {
           this.loading = false;
         });
@@ -173,7 +171,6 @@ export default {
       this.$confirm("Are you sure you want to clear?", "Clear?", "warning", {
         confirmButtonText: "Yes"
       }).then(() => {
-        this.saved = false;
         this.$store.commit("shop/RESTORE_CAR_SHOP");
       });
     }

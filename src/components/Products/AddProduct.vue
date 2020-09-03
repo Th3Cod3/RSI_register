@@ -142,12 +142,12 @@ export default {
       { text: "Measures", value: "1" },
       { text: "Dimensions", value: "2" }
     ],
-    isLoading: false,
     dimensionsObj: {
       lenght: null,
       width: null,
       height: null
-    }
+    },
+    isLoading: false
   }),
   watch: {
     meter() {
@@ -237,9 +237,15 @@ export default {
       formData.set("packaging_id", this.packaging_id);
       formData.set("dimensions", this.dimensions);
       formData.set("barcode", this.barcode);
-      this.$store.dispatch("product/saveProduct", formData).then(data => {
-        this.$router.push({ name: "product", params: { id: data.id } });
-      });
+      this.isLoading = true;
+      this.$store
+        .dispatch("product/saveProduct", formData)
+        .then(data => {
+          this.$router.push({ name: "product", params: { id: data.id } });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     }
   }
 };
