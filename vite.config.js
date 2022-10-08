@@ -4,7 +4,7 @@ import { createVuePlugin as vue } from "vite-plugin-vue2";
 export default defineConfig(({command, mode}) => {
 
   const env = loadEnv(mode, process.cwd(), '')
-  const appUrl = env.APP_URL
+  const appUrl = env.VITE_APP_URL
   
   const path = require("path");
   const host = appUrl.match(/^https?:\/\/([^:]+)/) && appUrl.match(/^https?:\/\/([^:]+)/)[1] || 'localhost'
