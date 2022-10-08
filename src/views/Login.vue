@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Login from "@/components/Generic/Login";
+import Login from "@/components/Generic/Login.vue";
 
 export default {
   components: {

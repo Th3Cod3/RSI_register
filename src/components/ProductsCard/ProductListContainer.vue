@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import ItemDetail from "@/components/ProductsCard/ItemDetail";
+import ItemDetail from "@/components/ProductsCard/ItemDetail.vue";
 import { mapState } from "vuex";
 
 export default {

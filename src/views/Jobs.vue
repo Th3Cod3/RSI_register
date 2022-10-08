@@ -32,7 +32,7 @@
 
 <script>
 import { mapState } from "vuex";
-import InventoryFilter from "@/components/Inventories/InventoryFilter";
+import InventoryFilter from "@/components/Inventories/InventoryFilter.vue";
 
 export default {
   components: {

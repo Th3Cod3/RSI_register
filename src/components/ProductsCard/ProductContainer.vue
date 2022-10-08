@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import ProductFilter from "@/components/ProductsCard/ProductFilter";
-import ProductListContainer from "@/components/ProductsCard/ProductListContainer";
+import ProductFilter from "@/components/ProductsCard/ProductFilter.vue";
+import ProductListContainer from "@/components/ProductsCard/ProductListContainer.vue";
 
 export default {
   name: "ProductContainer",

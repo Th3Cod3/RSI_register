@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import CartDetail from "@/components/CartCard/CartDetail";
+import CartDetail from "@/components/CartCard/CartDetail.vue";
 import { mapState } from "vuex";
 
 export default {

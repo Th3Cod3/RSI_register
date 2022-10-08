@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TopHeader from "@/components/Header/TopHeader";
+import TopHeader from "@/components/Header/TopHeader.vue";
 import { mapState } from "vuex";
 
 export default {

@@ -23,7 +23,7 @@
 
 <script>
 import { mapState } from "vuex";
-import ProductFilter from "@/components/ProductsCard/ProductFilter";
+import ProductFilter from "@/components/ProductsCard/ProductFilter.vue";
 
 export default {
   components: {

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import invoiceFilter from "@/components/Invoices/InvoiceFilter";
+import invoiceFilter from "@/components/Invoices/InvoiceFilter.vue";
 import { mapState } from "vuex";
 
 export default {

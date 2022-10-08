@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import invoiceItems from "@/components/Invoices/InvoiceItems";
-import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader";
+import invoiceItems from "@/components/Invoices/InvoiceItems.vue";
+import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader.vue";
 import { mapState } from "vuex";
 
 export default {

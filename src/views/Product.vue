@@ -119,9 +119,9 @@
 <script>
 import LineChart from "@/components/Charts/LineChart.js";
 import BarChart from "@/components/Charts/BarChart.js";
-import AddPrice from "@/components/Products/AddPrice";
-import AddDiscount from "@/components/Products/AddDiscount";
-import AddStock from "@/components/Products/AddStock";
+import AddPrice from "@/components/Products/AddPrice.vue";
+import AddDiscount from "@/components/Products/AddDiscount.vue";
+import AddStock from "@/components/Products/AddStock.vue";
 
 import { mapState } from "vuex";
 

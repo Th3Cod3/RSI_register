@@ -2,15 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store/index.js";
 
-import Shop from "@/views/Shop";
-import Error from "@/views/Error";
-import Invoices from "@/views/Invoices";
-import Invoice from "@/views/Invoice";
-import Jobs from "@/views/Jobs";
-import Inventory from "@/views/Inventory";
-import Product from "@/views/Product";
-import Login from "@/views/Login";
-import Logout from "@/views/Logout";
+import Shop from "@/views/Shop.vue";
+import Error from "@/views/Error.vue";
+import Invoices from "@/views/Invoices.vue";
+import Invoice from "@/views/Invoice.vue";
+import Jobs from "@/views/Jobs.vue";
+import Inventory from "@/views/Inventory.vue";
+import Product from "@/views/Product.vue";
+import Login from "@/views/Login.vue";
+import Logout from "@/views/Logout.vue";
 
 Vue.use(Router);
 

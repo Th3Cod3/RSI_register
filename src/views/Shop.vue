@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import ProductContainer from "@/components/ProductsCard/ProductContainer";
-import CartContainer from "@/components/CartCard/CartContainer";
-import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader";
+import ProductContainer from "@/components/ProductsCard/ProductContainer.vue";
+import CartContainer from "@/components/CartCard/CartContainer.vue";
+import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader.vue";
 
 export default {
   name: "Shop",

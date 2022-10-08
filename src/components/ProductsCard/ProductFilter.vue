@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import AddProduct from "@/components/Products/AddProduct";
+import AddProduct from "@/components/Products/AddProduct.vue";
 import { mapState } from "vuex";
 
 export default {
