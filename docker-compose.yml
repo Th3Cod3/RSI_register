@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  web:
+    image: node:lts-alpine3.15
+    restart: unless-stopped
+    working_dir: /var/www/html
+    user: "node"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "3000:3000"
+    command: tail -f /dev/stderr
