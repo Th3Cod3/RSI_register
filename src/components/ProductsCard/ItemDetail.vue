@@ -1,25 +1,23 @@
 <template>
   <b-row>
-    <b-col>
+    <b-col cols="4">
       {{ item.name }}
+    </b-col>
+    <b-col cols="2">
+      {{ item.dimensions }}
     </b-col>
     <b-col>
       {{ item.barcode }}
     </b-col>
-    <b-col cols="2" class="text-right">
+    <b-col class="text-right"  cols="2">
       {{ item.price | money }}
     </b-col>
-    <b-col cols="2">
-      {{ item.discount }}
+    <b-col cols="1">
+      {{ item.quantity }}
     </b-col>
-    <b-col cols="2">
+    <b-col>
       <b-button-group class="mr-2 float-right">
-        <b-button
-          variant="primary"
-          type="button"
-          @click="addItem"
-          :disabled="disabled"
-        >
+        <b-button variant="primary" type="button" @click="addItem" :disabled="disabled">
           <i class="fas fa-plus fa-2x"></i>
         </b-button>
       </b-button-group>
@@ -45,12 +43,15 @@ export default {
   padding-top: 0.25rem;
   border-radius: 0.25rem;
 }
+
 .row:nth-child(even) {
   background: #e7e7e7;
 }
+
 .row:nth-child(odd) {
   background: #ffffff;
 }
+
 .row:hover {
   background: #cfcfcf;
 }

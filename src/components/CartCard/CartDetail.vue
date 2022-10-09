@@ -14,9 +14,9 @@
           <td class="text-nowrap text-left">Product description:</td>
           <td class="text-left">{{ product.name }}</td>
         </tr>
-        <tr class="sub-description" v-if="product.dimensions">
+        <tr class="sub-description" v-if="product.dimensions_text">
           <td class="text-nowrap text-left">Additional information</td>
-          <td class="text-left">{{ product.dimensions }}</td>
+          <td class="text-left">{{ product.dimensions_text }}</td>
         </tr>
       </table>
     </td>
