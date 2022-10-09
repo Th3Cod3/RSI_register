@@ -1,9 +1,10 @@
 import Vue from "vue";
-import VueSimpleAlert from "vue-simple-alert";
+import { Simplert } from 'vue2-simplert-plugin';
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import 'vue2-simplert-plugin/dist/vue2-simplert-plugin.min.css';
 
 import { dateFilter } from "@/filters/moment";
 import {
@@ -23,7 +24,7 @@ Vue.filter("round", roundFilter);
 
 Vue.use(IconsPlugin);
 Vue.use(BootstrapVue);
-Vue.use(VueSimpleAlert);
+Vue.use(Simplert);
 
 import store from "@/store/index.js";
 

@@ -2,14 +2,14 @@ version: "3"
 
 services:
   web:
-    image: node:lts-alpine3.15
+    image: node:lts
     restart: unless-stopped
+    hostname: register.localhost
     working_dir: /var/www/html
-    user: "node"
     environment:
       - NODE_ENV=development
     volumes:
       - ./:/var/www/html
     ports:
-      - "3000:3000"
-    command: tail -f /dev/stderr
+      - "8081:8081"
+    command: bash -c "tail -f /dev/stderr"

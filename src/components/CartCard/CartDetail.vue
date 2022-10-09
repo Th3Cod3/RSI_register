@@ -1,46 +1,51 @@
 <template>
   <tr>
-    <td>{{ product.name }}</td>
-    <td class="text-right d-none d-print-table-cell">
-      {{ product.price | money }}
+    <td colspan="2" class="d-none d-print-table-cell" style="font-size: 0.8rem;">
+      <table class="table table-sm table-borderless m-0" style="line-height: 1rem;">
+        <tr class="sub-description" v-if="product.barcode">
+          <td class="text-nowrap text-left">Product code:</td>
+          <td class="text-left">{{ product.barcode }}</td>
+        </tr>
+        <tr class="sub-description" v-if="product.sub_category">
+          <td class="text-nowrap text-left">Product type:</td>
+          <td class="text-left">{{ product.sub_category }}</td>
+        </tr>
+        <tr class="sub-description" v-if="product.name">
+          <td class="text-nowrap text-left">Product description:</td>
+          <td class="text-left">{{ product.name }}</td>
+        </tr>
+        <tr class="sub-description" v-if="product.dimensions">
+          <td class="text-nowrap text-left">Additional information</td>
+          <td class="text-left">{{ product.dimensions }}</td>
+        </tr>
+      </table>
     </td>
-    <td class="text-right d-none d-print-table-cell">
-      {{ product.discount }}%
-    </td>
-    <td class="text-right d-none d-print-table-cell">
-      {{ priceEach | money }}
-    </td>
+    <td class="d-print-none">{{ product.name }}</td>
     <td class="text-right">
-      <span v-show="!changeAmount" @click="changeAmount = true">{{
-        product.quantity
-      }}</span>
+      <span v-show="!changeAmount" @click="changeAmount = true">
+        {{ product.quantity }}
+      </span>
       <span v-show="changeAmount">
         <div class="d-print-none">
-          <input
-            type="number"
-            id="cart-item-amount"
-            @blur="updateAmount"
-            @keydown.enter="updateAmount"
-            @keydown.esc="changeAmount = false"
-            v-model="inputAmount"
-          />
+          <input type="number" id="cart-item-amount" @blur="updateAmount" @keydown.enter="updateAmount"
+            @keydown.esc="changeAmount = false" v-model="inputAmount" />
         </div>
       </span>
     </td>
+    <td class="text-right d-none d-print-table-cell">
+      {{ product.unit }}
+    </td>
+    <td class="text-right d-none d-print-table-cell">
+      {{ priceEach | money }} <!-- with discount -->
+    </td>
     <td class="text-right">
-      <span v-show="!changePrice" @click="changePrice = true">{{
-        salePrice | money
-      }}</span>
+      <span v-show="!changePrice" @click="changePrice = true">
+        {{ salePrice | money }}
+      </span>
       <span v-show="changePrice">
         <div class="d-print-none">
-          <input
-            type="number"
-            id="cart-item-price"
-            @blur="updatePrice"
-            @keydown.enter="updatePrice"
-            @keydown.esc="changePrice = false"
-            v-model="inputPrice"
-          />
+          <input type="number" id="cart-item-price" @blur="updatePrice" @keydown.enter="updatePrice"
+            @keydown.esc="changePrice = false" v-model="inputPrice" />
         </div>
       </span>
     </td>
@@ -117,7 +122,16 @@ export default {
   border: none;
   border-bottom: 1px solid black;
 }
+
 .quantity:focus {
   outline: none;
+}
+
+.sub-description>td:first-child {
+  width: 185px;
+}
+
+.sub-description>td {
+  padding: 0;
 }
 </style>

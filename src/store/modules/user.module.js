@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     user: "",
+    userInfo: {},
     token: "",
     username: "",
     permissions: {},
@@ -29,6 +30,7 @@ export default {
       state.isLogin = true;
       state.token = payload.token;
       state.username = payload.username;
+      state.userInfo = payload.userInfo;
       localStorage.setItem("token", JSON.stringify(state.token));
     },
     SUCCESS_INITIALIZE(state, payload) {
@@ -45,6 +47,7 @@ export default {
           if (response.api_token) {
             commit("SUCCESS_LOGIN", {
               token: response.api_token,
+              userInfo: response.userInfo,
               username: formData.get("user")
             });
           }

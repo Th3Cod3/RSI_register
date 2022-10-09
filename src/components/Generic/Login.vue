@@ -40,18 +40,17 @@ export default {
     },
     authError(error) {
       if (error.status == 401) {
-        this.$fire({
-          title: "Something wrong, verify your username en/of password.",
-          type: "warning",
-          timer: 3000
+        this.$Simplert.open({
+          message: "Something wrong, verify your username en/of password.",
+          type: "warning"
         });
       } else if (error.status == 403) {
-        this.$fire({
-          title: "This user is block, contact with support.",
-          type: "warning",
-          timer: 3000
+        this.$Simplert.open({
+          message: "This user has been blocked, contact with support.",
+          type: "warning"
         });
       }
+      setTimeout(() => this.$Simplert.close(), 3000);
     }
   }
 };

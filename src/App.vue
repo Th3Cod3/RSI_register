@@ -5,6 +5,7 @@
       <transition name="router">
         <router-view />
       </transition>
+      <simplert></simplert>
     </b-container>
   </div>
 </template>
@@ -32,10 +33,6 @@ export default {
 .total {
   font-weight: 500;
   font-size: 1.5rem;
-}
-
-.total-summary {
-  font-size: 1.25rem;
 }
 
 .body-height {

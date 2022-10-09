@@ -6,13 +6,8 @@
         <span class="d-print-none">Factuur {{ invoice.invoice_number }}</span>
         <span class="d-none d-print-block">Productlijst</span>
         <span class="float-right">
-          <b-button
-            :disabled="isVoiding"
-            class="d-print-none"
-            variant="danger"
-            v-if="!invoice.voided_by"
-            @click="voidInvoice"
-          >
+          <b-button :disabled="isVoiding" class="d-print-none" variant="danger" v-if="!invoice.voided_by"
+            @click="voidInvoice">
             <b-spinner small type="grow" v-show="isVoiding"></b-spinner>
             VOID
           </b-button>
@@ -30,14 +25,8 @@
         </span>
         <br />
         <span v-show="isEditing">
-          <input
-            ref="totalInvoice"
-            type="number"
-            @blur="saveEdit"
-            @keyup.enter="saveEdit"
-            @keyup.esc="isEditing = false"
-            v-model="newTotal"
-          />
+          <input ref="totalInvoice" type="number" @blur="saveEdit" @keyup.enter="saveEdit"
+            @keyup.esc="isEditing = false" v-model="newTotal" />
         </span>
         <span class="total" @click="editTotal" v-show="!isEditing">
           <b-spinner small v-show="isSaving" type="grow"></b-spinner>
@@ -106,18 +95,21 @@ export default {
       }
     },
     voidInvoice() {
-      this.$confirm("Are you sure you want to void?", "VOID?", "warning", {
-        confirmButtonText: "VOID"
-      })
-        .then(() => {
+      this.$Simplert.open({
+        title: 'VOID?',
+        message: 'Are you sure you want to void?',
+        type: 'danger',
+        useConfirmBtn: true,
+        customConfirmBtnText: "VOID",
+        onConfirm: () => {
           this.isVoiding = true;
           let formData = new FormData();
           formData.append("id", this.invoice.id);
           this.$store.dispatch("invoice/voidInvoice", formData).finally(() => {
             this.isVoiding = false;
           });
-        })
-        .catch(() => {});
+        }
+      })
     },
     filterMoney(value) {
       return this.$options.filters.money(value);

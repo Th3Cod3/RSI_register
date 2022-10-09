@@ -2,8 +2,8 @@ import moment from "moment";
 
 const dateFilter = date => {
   return moment(date)
-    .locale("nl")
-    .format("DD MMMM YYYY");
+    .locale("en")
+    .format("MMMM DD, YYYY");
 };
 
 export { dateFilter };
