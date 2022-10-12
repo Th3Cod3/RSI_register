@@ -21,14 +21,14 @@
           active-class="active"
           v-if="isJobChoosed"
         >
-          Inventaris
+          Inventory
         </b-nav-item>
         <b-nav-item
           :to="{ name: 'invoices', params: { id: inventory_id } }"
           active-class="active"
           v-if="isJobChoosed"
         >
-          Facturen
+          Invoices
         </b-nav-item>
       </b-navbar-nav>
 

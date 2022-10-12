@@ -12,10 +12,6 @@
         :items="products"
         @row-clicked="selectProduct"
       >
-        <template v-slot:cell(details)="data">
-          <span v-if="data.item.dimensions">{{ data.item.dimensions }}</span>
-          <span v-else>{{ data.item.bundle_volume | round }}</span>
-        </template>
       </b-table>
     </b-card-body>
   </b-card>
@@ -33,16 +29,20 @@ export default {
     page: 0,
     fields: [
       {
+        key: "barcode",
+        label: "Barcode"
+      },
+      {
+        key: "sub_category",
+        label: "Category"
+      },
+      {
         key: "name",
         label: "Naam"
       },
       {
-        key: "details",
-        label: "Info"
-      },
-      {
-        key: "barcode",
-        label: "Barcode"
+        key: "dimensions_text",
+        label: "Dimensions"
       },
       {
         key: "quantity",
