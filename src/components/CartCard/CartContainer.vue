@@ -101,7 +101,7 @@
                       </tr>
                       <tr class="table-secondary font-weight-bold border-dark"
                         style="border-bottom: solid 2px;border-top: solid 2px;">
-                        <td class="pr-2">Totaal</td>
+                        <td class="pr-2">Total</td>
                         <td>{{ endTotal | money }}</td>
                       </tr>
                       <tr class="d-print-none">
