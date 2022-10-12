@@ -42,7 +42,7 @@
                       <li>
                         The total sales price is due upon purchase. If for any reason, there is still an open balance,
                         it shall become overdue on the day after the sale has taken place.
-                        If the invoice has become overdue, a delay interest rate of 18%
+                        If the invoice becomes overdue, a delay interest rate of 18% per year
                         shall be enforceable until the invoice is paid off in full.
                       </li>
                       <li>
@@ -64,7 +64,7 @@
                         The buyer shall take the purchased items with him immediately after completion of the purchase.
                         If for any reason the buyer needs to come pick up any of the purchased items on a later date,
                         these items can only be claimed after presentation of this original (signed) invoice.
-                        If for any reason the purchased items are still unclaimed seven (7) days
+                        If for any reason the purchased items are still unclaimed three (3) days
                         after the sale has taken place, the buyer shall no longer be entitled to claim these items.
                         The already paid money shall be considered fees for cancellation
                         of sale and for storage of the items.

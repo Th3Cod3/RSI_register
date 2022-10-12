@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td colspan="2" class="d-none d-print-table-cell" style="font-size: 0.8rem;">
+    <td class="d-none d-print-table-cell" style="font-size: 0.8rem;">
       <table class="table table-sm table-borderless m-0" style="line-height: 1rem;">
         <tr class="sub-description" v-if="product.barcode">
           <td class="text-nowrap text-left">Product code:</td>
@@ -15,19 +15,19 @@
           <td class="text-left">{{ product.name }}</td>
         </tr>
         <tr class="sub-description" v-if="product.dimensions_text">
-          <td class="text-nowrap text-left">Additional information</td>
+          <td class="text-nowrap text-left">Additional information:</td>
           <td class="text-left">{{ product.dimensions_text }}</td>
         </tr>
       </table>
     </td>
     <td class="d-print-none">{{ product.name }}</td>
-    <td class="text-right">
-      <span v-show="!changeAmount" @click="changeAmount = true">
+    <td class="text-right" style="min-width: 65px;">
+      <span v-if="!changeAmount" @click="changeAmount = true">
         {{ product.quantity }}
       </span>
-      <span v-show="changeAmount">
+      <span v-else ="changeAmount">
         <div class="d-print-none">
-          <input type="number" id="cart-item-amount" @blur="updateAmount" @keydown.enter="updateAmount"
+          <input type="number" class="text-right" style="max-width: 60px;" id="cart-item-amount" @blur="updateAmount" @keydown.enter="updateAmount"
             @keydown.esc="changeAmount = false" v-model="inputAmount" />
         </div>
       </span>
@@ -38,8 +38,8 @@
     <td class="text-right d-none d-print-table-cell">
       {{ priceEach | money }} <!-- with discount -->
     </td>
-    <td class="text-right">
-      <span v-show="!changePrice" @click="changePrice = true">
+    <td class="text-right text-nowrap">
+      <span v-show="!changePrice" @click="changePrice = false"> <!-- disable change price -->
         {{ salePrice | money }}
       </span>
       <span v-show="changePrice">

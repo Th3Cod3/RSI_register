@@ -1,28 +1,49 @@
 <template>
-  <b-row>
-    <b-col cols="4">
-      {{ item.name }}
-    </b-col>
-    <b-col cols="2">
-      {{ item.dimensions }}
-    </b-col>
-    <b-col>
-      {{ item.barcode }}
-    </b-col>
-    <b-col class="text-right"  cols="2">
-      {{ item.price | money }}
-    </b-col>
-    <b-col cols="1">
+  <tr>
+    <td style="font-size: 0.8rem;">
+      <table class="table table-sm table-borderless m-0" style="line-height: 1rem;">
+        <tr class="sub-description" v-if="item.barcode">
+          <td class="text-nowrap text-left" style="width: 140px;">Product code:</td>
+          <td class="text-left">{{ item.barcode }}</td>
+        </tr>
+        <tr class="sub-description" v-if="item.sub_category">
+          <td class="text-nowrap text-left" style="width: 140px;">Product type:</td>
+          <td class="text-left">{{ item.sub_category }}</td>
+        </tr>
+        <tr class="sub-description" v-if="item.name">
+          <td class="text-nowrap text-left" style="width: 140px;">Product description:</td>
+          <td class="text-left">{{ item.name }}</td>
+        </tr>
+        <tr class="sub-description" v-if="item.dimensions_text">
+          <td class="text-nowrap text-left" style="width: 140px;">Additional information:</td>
+          <td class="text-left">{{ item.dimensions_text }}</td>
+        </tr>
+      </table>
+    </td>
+    <td class="text-right text-nowrap">
       {{ item.quantity }}
-    </b-col>
-    <b-col>
-      <b-button-group class="mr-2 float-right">
-        <b-button variant="primary" type="button" @click="addItem" :disabled="disabled">
-          <i class="fas fa-plus fa-2x"></i>
-        </b-button>
-      </b-button-group>
-    </b-col>
-  </b-row>
+    </td>
+    <td class="text-right text-nowrap">
+      {{ item.price_as_new | money }}
+    </td>
+    <td class="text-right text-nowrap">
+      <span v-if="item.depreciation">
+        <small class="text-secondary">({{parseInt(item.depreciation)}}%)</small>
+        {{ ( item.price_as_new * (1 - item.depreciation / 100)) | money }}
+      </span>
+    </td>
+    <td class="text-right text-nowrap">
+      <span>
+        <small class="text-secondary" v-if="item.liquidation">({{parseInt(item.liquidation)}}%)</small>
+        {{ item.price | money }}
+      </span>
+    </td>
+    <td class="text-right text-nowrap">
+      <b-button variant="primary" type="button" @click="addItem" :disabled="disabled">
+        <i class="fas fa-plus fa-2x"></i>
+      </b-button>
+    </td>
+  </tr>
 </template>
 
 <script>
@@ -38,21 +59,29 @@ export default {
 </script>
 
 <style scoped>
-.row {
+.tr {
   padding-bottom: 0.25rem;
   padding-top: 0.25rem;
   border-radius: 0.25rem;
 }
 
-.row:nth-child(even) {
+.tr:nth-child(even) {
   background: #e7e7e7;
 }
 
-.row:nth-child(odd) {
+.tr:nth-child(odd) {
   background: #ffffff;
 }
 
-.row:hover {
+.tr:hover {
   background: #cfcfcf;
+}
+
+.sub-description>td:first-child {
+  width: 185px;
+}
+
+.sub-description>td {
+  padding: 0;
 }
 </style>
