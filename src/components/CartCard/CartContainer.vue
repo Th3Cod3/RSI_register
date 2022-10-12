@@ -16,10 +16,8 @@
           <table class="table table-sm">
             <thead class="thead-dark">
               <tr>
-                <th class="d-print-table-cell d-none text-nowrap">Description</th>
-                <th class="d-print-table-cell d-none text-nowrap"></th>
-                <th class="d-print-none">Description</th>
-                <th class="d-print-table-cell text-right">Qty.</th>
+                <th class="text-nowrap">Description</th>
+                <th class="text-right">Qty.</th>
                 <th class="d-print-table-cell d-none text-nowrap text-right">Unit</th>
                 <th class="d-print-table-cell d-none text-nowrap text-right">Price per unit</th>
                 <th class="text-right">Subtotal</th>
