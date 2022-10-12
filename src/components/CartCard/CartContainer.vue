@@ -105,7 +105,7 @@
                         <td>{{ endTotal | money }}</td>
                       </tr>
                       <tr class="d-print-none">
-                        <td>Restitutie</td>
+                        <td>Change</td>
                         <td>{{ change | roundMoney }}</td>
                       </tr>
                       <tr class="d-print-table-row d-none border-bottom">
