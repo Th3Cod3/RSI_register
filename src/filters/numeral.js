@@ -23,15 +23,15 @@ numeral.locale("aw");
 
 const dollarFilter = function(value) {
   if (!value) {
-    return numeral(0).format("0.00 $");
+    return numeral(0).format("$ 0.00");
   }
 
-  return numeral(value).format("0.00 $");
+  return numeral(value).format("$ 0.00");
 };
 
 const dollarRoundFilter = function(value) {
   if (!value) {
-    return numeral(0).format("0.00 $");
+    return numeral(0).format("$ 0.00");
   } else {
     value = Number(value);
   }
@@ -42,7 +42,7 @@ const dollarRoundFilter = function(value) {
     value -= complement;
   }
 
-  return numeral(value).format("0.00 $");
+  return numeral(value).format("$ 0.00");
 };
 
 const roundFilter = function(value) {
