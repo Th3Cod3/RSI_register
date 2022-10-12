@@ -66,6 +66,7 @@
                     {{ inventory.contact_person.lastname }}
                     ({{ inventory.contact_person.function }})
                   </span>
+                  <span v-else>Mr. J.M. (Jeannot) DE CUBA, Esq. (liquidator)</span>
                 </td>
               </tr>
             </table>
