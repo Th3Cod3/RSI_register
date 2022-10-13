@@ -45,8 +45,16 @@ export default {
         label: "Dimensions"
       },
       {
+        key: "discount",
+        label: "Discount"
+      },
+      {
         key: "quantity",
-        label: "Voorraad"
+        label: "Stock"
+      },
+      {
+        key: "price",
+        label: "Price"
       }
     ]
   }),
