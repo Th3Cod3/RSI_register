@@ -32,6 +32,10 @@ export default {
         label: "Factuurnummer"
       },
       {
+        key: "swipe",
+        label: "Swipe",
+      },
+      {
         key: "total",
         label: "Totaal",
         class: "text-right",
