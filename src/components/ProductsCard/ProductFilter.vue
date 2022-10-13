@@ -59,7 +59,8 @@ export default {
   computed: {
     ...mapState("inventory", {
       inventory_id: state => state.inventory.inventory_id
-    })
+    }),
+    ...mapState("shop", ["checkout"])
   },
   components: {
     AddProduct
@@ -69,6 +70,9 @@ export default {
       this.submit();
     },
     name() {
+      this.submit();
+    },
+    checkout() {
       this.submit();
     }
   },

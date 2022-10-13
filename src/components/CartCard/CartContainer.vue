@@ -148,13 +148,31 @@
                     <tr>
                       <td class="font-weight-bold border" style="border-top: solid 2px !important;">The buyer</td>
                       <td></td>
-                      <td class="font-weight-bold border" style="border-top: solid 2px !important;">{{ employeeName}}</td>
+                      <td class="font-weight-bold border" style="border-top: solid 2px !important;">{{ employeeName}}
+                      </td>
                     </tr>
                   </table>
                 </td>
               </tr>
             </table>
           </div>
+        </div>
+        <div class="d-print-none" v-if="!checkout">
+          <div class="form-group">
+            <label for="full_name">Full name</label>
+            <input type="text" class="form-control" v-model="buyerInfo.full_name" id="full_name">
+          </div>
+          <div class="form-group">
+            <label for="birthdate">Birth information</label>
+            <input type="date" class="form-control" v-model="buyerInfo.birthdate" id="birthdate">
+          </div>
+          <div class="form-group">
+            <label for="contact_info">Contact information</label>
+            <input type="text" class="form-control" v-model="buyerInfo.contact_info" id="contact_info">
+          </div>
+          <b-form-checkbox v-model="buyerInfo.swipe" value="1" unchecked-value="0">
+            Swipe
+          </b-form-checkbox>
         </div>
         <div v-if="checkout" class="btn-group d-print-none">
           <button type="button" class="btn btn-primary" onclick="print()">
@@ -174,6 +192,12 @@
 <script>
 import CartDetail from "@/components/CartCard/CartDetail.vue";
 import { mapState } from "vuex";
+const buyerDefaultValue = () => ({
+  swipe: "0",
+  full_name: "",
+  birthdate: "",
+  contact_info: ""
+})
 
 export default {
   data: () => ({
@@ -182,6 +206,7 @@ export default {
     total: 0,
     totalFullPrice: 0,
     endTotal: 0,
+    buyerInfo: buyerDefaultValue()
   }),
   components: {
     CartDetail,
@@ -226,6 +251,9 @@ export default {
     },
   },
   methods: {
+    buyerDefaultValue() {
+      this.buyerInfo = buyerDefaultValue();
+    },
     updateSum() {
       let total = 0;
       let totalFullPrice = 0;
@@ -241,6 +269,10 @@ export default {
       let formData = new FormData();
       formData.set("total", this.total);
       formData.set("inventory_id", this.inventory_id);
+      formData.set("swipe", this.buyerInfo.swipe);
+      formData.set("full_name", this.buyerInfo.full_name);
+      formData.set("birthdate", this.buyerInfo.birthdate);
+      formData.set("contact_info", this.buyerInfo.contact_info);
       let count = 0;
       this.selectedItems.forEach((item) => {
         formData.set(`items[${count}][item_id]`, item.id);
@@ -270,7 +302,10 @@ export default {
         type: 'warning',
         useConfirmBtn: true,
         customConfirmBtnText: "Yes",
-        onConfirm: () => this.$store.commit("shop/RESTORE_CAR_SHOP")
+        onConfirm: () => {
+          this.$store.commit("shop/RESTORE_CAR_SHOP");
+          this.buyerDefaultValue();
+        }
       })
     },
   },

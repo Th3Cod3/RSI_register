@@ -98,16 +98,16 @@
           <td colspan="2" class="font-weight-bold"><u>BUYER INFORMATION:</u></td>
         </tr>
         <tr>
-          <td>Full name</td>
-          <td class="font-weight-bold"></td>
+          <td style="width: 200px;">Full name</td>
+          <td class="font-weight-bold">{{ buyerInfo.full_name }}</td>
         </tr>
         <tr>
           <td>Birth information</td>
-          <td class="font-weight-bold"></td>
+          <td class="font-weight-bold">{{ buyerInfo.birthdate | date}}</td>
         </tr>
         <tr>
           <td>Contact information</td>
-          <td class="font-weight-bold"></td>
+          <td class="font-weight-bold">{{ buyerInfo.contact_info }}</td>
         </tr>
       </table>
       <hr class="my-1" style="border: solid 2px">
@@ -121,7 +121,8 @@ import { mapState } from "vuex";
 export default {
   name: "PrintInvoiceHEader",
   computed: {
-    ...mapState("shop", ["invoiceNumber", "date"]),
+    ...mapState("shop", ["invoiceNumber", "date", "buyerInfo"]),
+    ...mapState("shop", ["buyerInfo"]),
     ...mapState("invoice", ["invoice"]),
     ...mapState("inventory", ["inventory"])
   }

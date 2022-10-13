@@ -1,5 +1,11 @@
 import { createInvoices } from "@/services/api/invoices";
 
+const buyerDefaultValue = () => ({
+  full_name: "",
+  birthdate: "",
+  contact_info: ""
+})
+
 export default {
   namespaced: true,
   state: {
@@ -7,17 +13,24 @@ export default {
     selectedItems: [],
     paidAmount: "",
     invoiceNumber: "",
+    buyerInfo: {
+      full_name: "",
+      birthdate: "",
+      contact_info: ""
+    },
     date: "",
     checkout: false
   },
   mutations: {
     RESTORE_CAR_SHOP(state) {
+      state.buyerInfo = buyerDefaultValue();
       state.selectedItems = [];
       state.invoiceNumber = "";
       state.date = "";
       state.checkout = false;
     },
     SUCCESS_INVOICE(state, invoice) {
+      state.buyerInfo = invoice.buyerInfo;
       state.invoiceNumber = invoice.invoiceNumber;
       state.date = invoice.date;
       state.checkout = true;
@@ -64,6 +77,11 @@ export default {
       return createInvoices(formData).then(response => {
         if (response.invoice_number) {
           commit("SUCCESS_INVOICE", {
+            buyerInfo: {
+              full_name: formData.get("full_name"),
+              birthdate: formData.get("birthdate"),
+              contact_info: formData.get("contact_info")
+            },
             invoiceNumber: response.invoice_number,
             date: response.date
           });
