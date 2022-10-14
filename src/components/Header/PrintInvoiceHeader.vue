@@ -82,11 +82,11 @@
               </tr>
               <tr>
                 <td class="text-nowrap">Account no.</td>
-                <td class="font-weight-bold">2554020290</td>
+                <td class="font-weight-bold">2554020190</td>
               </tr>
               <tr>
                 <td class="text-nowrap">Account name</td>
-                <td class="font-weight-bold">LA LINDA REAL ESTATE II</td>
+                <td class="font-weight-bold">Recovery Solutions & Investigations</td>
               </tr>
             </table>
           </td>
