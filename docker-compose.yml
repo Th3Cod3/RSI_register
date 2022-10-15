@@ -3,7 +3,6 @@ version: "3"
 services:
   web:
     image: node:lts
-    restart: unless-stopped
     hostname: register.localhost
     working_dir: /var/www/html
     environment:
