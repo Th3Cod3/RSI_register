@@ -24,7 +24,6 @@
                 v-model="quantity"
                 type="number"
                 step="1"
-                min="1"
                 placeholder="Amount"
                 required
               />
