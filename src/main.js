@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Bugsnag from "@/services/bugsnag"
 import { Simplert } from 'vue2-simplert-plugin';
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
@@ -14,6 +15,9 @@ import {
 } from "@/filters/numeral";
 import router from "@/router";
 import App from "./App.vue";
+
+const bugsnagVue = Bugsnag.getPlugin('vue')
+bugsnagVue.installVueErrorHandler(Vue)
 
 Vue.config.productionTip = false;
 
