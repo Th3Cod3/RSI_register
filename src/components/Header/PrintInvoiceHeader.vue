@@ -99,15 +99,15 @@
         </tr>
         <tr>
           <td style="width: 200px;">Full name</td>
-          <td class="font-weight-bold">{{ buyerInfo.full_name }}</td>
+          <td v-if="buyerInfo.full_name" class="font-weight-bold">{{ buyerInfo.full_name }}</td>
         </tr>
         <tr>
           <td>Birth information</td>
-          <td class="font-weight-bold">{{ buyerInfo.birthdate | date}}</td>
+          <td v-if="buyerInfo.birthdate" class="font-weight-bold">{{ buyerInfo.birthdate | date}}</td>
         </tr>
         <tr>
           <td>Contact information</td>
-          <td class="font-weight-bold">{{ buyerInfo.contact_info }}</td>
+          <td v-if="buyerInfo.contact_info" class="font-weight-bold">{{ buyerInfo.contact_info }}</td>
         </tr>
       </table>
       <hr class="my-1" style="border: solid 2px">

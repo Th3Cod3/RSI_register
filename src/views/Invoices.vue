@@ -32,6 +32,18 @@ export default {
         label: "Factuurnummer"
       },
       {
+        key: "voided_by",
+        label: "Void by"
+      },
+      {
+        key: "full_name",
+        label: "Buyer name"
+      },
+      {
+        key: "contact_info",
+        label: "Buyer info"
+      },
+      {
         key: "swipe",
         label: "Swipe",
       },

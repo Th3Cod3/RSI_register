@@ -267,7 +267,7 @@ export default {
     },
     generateFormData() {
       let formData = new FormData();
-      formData.set("total", this.total);
+      formData.set("total", this.endTotal);
       formData.set("inventory_id", this.inventory_id);
       formData.set("swipe", this.buyerInfo.swipe);
       formData.set("full_name", this.buyerInfo.full_name);
