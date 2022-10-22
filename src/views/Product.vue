@@ -17,30 +17,28 @@
             <b-col md="12" lg="6" class="px-5">
               <b-table-simple hover small responsive>
                 <b-tr>
-                  <b-th>Naam</b-th>
+                  <b-th>Name</b-th>
                   <b-td class="text-right">{{ product.name }}</b-td>
                 </b-tr>
                 <b-tr>
-                  <b-th>Categorie</b-th>
+                  <b-th>Category</b-th>
                   <b-td class="text-right">
                     <span v-if="product.sub_category_id">
-                      {{ product.category }} {{ product.sub_category_id }}
+                      {{ product.sub_category }} {{ product.sub_category_id }}
                     </span>
-                    <span v-else>Geen</span>
+                    <span v-else>None</span>
                   </b-td>
                 </b-tr>
                 <b-tr>
                   <b-th>Barcode</b-th>
                   <b-td class="text-right">
-                    {{ product.barcode ? product.barcode : "Geen" }}
+                    {{ product.barcode ? product.barcode : "None" }}
                   </b-td>
                 </b-tr>
                 <b-tr>
                   <b-th>Packaging</b-th>
                   <b-td class="text-right">
-                    {{
-                      product.packaging_id ? product.packaging_id : "Onbekend"
-                    }}
+                    {{ product.packaging_id ? product.packaging_id : "Unknown" }}
                   </b-td>
                 </b-tr>
                 <b-tr>
@@ -55,8 +53,16 @@
                       {{ product.bundle_volume | round }}
                     </span>
                     <span v-else>
-                      Geen
+                      None
                     </span>
+                  </b-td>
+                </b-tr>
+                <b-tr v-if="product.dimensions_text">
+                  <b-th>
+                    {{ "Dimensions text" }}
+                  </b-th>
+                  <b-td class="text-right">
+                    {{ product.dimensions_text }}
                   </b-td>
                 </b-tr>
               </b-table-simple>
@@ -64,16 +70,28 @@
             <b-col md="12" lg="6" class="px-5">
               <b-table-simple hover small responsive>
                 <b-tr>
-                  <b-th>Voorraad</b-th>
+                  <b-th>Stock</b-th>
                   <b-td class="text-right">{{ product.quantity }}</b-td>
                 </b-tr>
-                <b-tr>
-                  <b-th>Prijs</b-th>
-                  <b-td class="text-right">{{ product.price | money }}</b-td>
+                <b-tr v-if="product.price_as_new">
+                  <b-th>Price as new</b-th>
+                  <b-td class="text-right">{{ product.price_as_new | money }}</b-td>
+                </b-tr>
+                <b-tr v-if="product.depreciation">
+                  <b-th>Depreciation</b-th>
+                  <b-td class="text-right">{{ product.depreciation }}%</b-td>
+                </b-tr>
+                <b-tr v-if="product.liquidation">
+                  <b-th>Liquidation</b-th>
+                  <b-td class="text-right">{{ product.liquidation }}%</b-td>
                 </b-tr>
                 <b-tr>
-                  <b-th>Korting</b-th>
-                  <b-td class="text-right">{{ product.discount }}%</b-td>
+                  <b-th>Discount</b-th>
+                  <b-td class="text-right">{{ product.discount || 0 }}%</b-td>
+                </b-tr>
+                <b-tr>
+                  <b-th>Price</b-th>
+                  <b-td class="text-right">{{ product.price | money }}</b-td>
                 </b-tr>
               </b-table-simple>
               <div class="product-img-container">
