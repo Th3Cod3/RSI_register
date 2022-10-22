@@ -1,9 +1,9 @@
 <template>
   <div>
-    <print-invoice-header />
+    <PrintInvoiceHeader mode="cart" />
     <b-row>
-      <product-container />
-      <cart-container mode="cart"/>
+      <ProductContainer />
+      <CartContainer mode="cart" />
     </b-row>
   </div>
 </template>
