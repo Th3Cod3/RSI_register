@@ -34,44 +34,19 @@
           <td>
             <table class="table table-sm table-borderless table-nospacing">
               <tr>
-                <td colspan="2" class="font-weight-bold"><u>SELLER INFORMATION:</u></td>
+                <td colspan="2" class="font-weight-bold">Mr. J.M. DE CUBA, Esquire, q.q. liquidator of:</td>
               </tr>
               <tr>
-                <td style="width: 200px;">Statutory name</td>
+                <td style="width: 120px;">Statutory name</td>
                 <td class="font-weight-bold">{{ inventory.inventory_of.company_name }}</td>
               </tr>
               <tr>
                 <td>Trade name</td>
                 <td class="font-weight-bold">{{ inventory.inventory_of.handle_name }}</td>
               </tr>
-              <tr>
-                <td>Department</td>
-                <td class="font-weight-bold">{{ inventory.inventory_of.department }}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td class="font-weight-bold">
-                  <span v-if="inventory.inventory_of.address">
-                    {{ inventory.inventory_of.address.street_name }} #
-                    {{ inventory.inventory_of.address.address_no }},
-                    {{ inventory.inventory_of.address.country_name_en }}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>Contact person (function)</td>
-                <td class="font-weight-bold">
-                  <span v-if="inventory.contact_person">
-                    {{ inventory.contact_person.firstname }}
-                    {{ inventory.contact_person.lastname }}
-                    ({{ inventory.contact_person.function }})
-                  </span>
-                  <span v-else>Mr. J.M. (Jeannot) DE CUBA, Esq. (liquidator)</span>
-                </td>
-              </tr>
             </table>
           </td>
-          <td class="text-right pt-3">
+          <td class="text-right pt-1">
             <table class="table table-sm table-borderless table-nospacing">
               <tr>
                 <td colspan="2" class="font-weight-bold text-nowrap"><u>METHOD OF PAYMENT:</u></td>
