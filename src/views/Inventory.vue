@@ -29,6 +29,10 @@ export default {
     page: 0,
     fields: [
       {
+        key: "meta_data.item_no",
+        label: "No"
+      },
+      {
         key: "barcode",
         label: "Barcode"
       },
