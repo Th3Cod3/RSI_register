@@ -32,6 +32,7 @@
 </template>
 
 <script>
+// TODO: Delete after implement edit in current structure
 import { mapState } from "vuex";
 
 export default {

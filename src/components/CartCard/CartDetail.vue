@@ -1,7 +1,13 @@
 <template>
   <tr>
-    <td class="d-none d-print-table-cell" style="font-size: 0.8rem;">
-      <table class="table table-sm table-borderless m-0" style="line-height: 1rem;">
+    <td
+      :class="{ 'd-none': isCartMode, 'd-print-table-cell': isCartMode }"
+      style="font-size: 0.8rem;"
+    >
+      <table
+        class="table table-sm table-borderless m-0"
+        style="line-height: 1rem;"
+      >
         <tr class="sub-description" v-if="product.barcode">
           <td class="text-nowrap text-left">Product code:</td>
           <td class="text-left">{{ product.barcode }}</td>
@@ -20,32 +26,54 @@
         </tr>
       </table>
     </td>
-    <td class="d-print-none">{{ product.name }}</td>
+    <td v-if="isCartMode" class="d-print-none">{{ product.name }}</td>
     <td class="text-right" style="min-width: 65px;">
-      <span v-if="!changeAmount" @click="changeAmount = true">
+      <span v-if="!changeAmount" @click="changeAmountValidator">
         {{ product.quantity }}
       </span>
-      <span v-else ="changeAmount">
+      <span v-else>
         <div class="d-print-none">
-          <input type="number" class="text-right" style="max-width: 60px;" id="cart-item-amount" @blur="updateAmount" @keydown.enter="updateAmount"
-            @keydown.esc="changeAmount = false" v-model="inputAmount" />
+          <input
+            type="number"
+            class="text-right"
+            style="max-width: 60px;"
+            id="cart-item-amount"
+            @blur="updateAmount"
+            @keydown.enter="updateAmount"
+            @keydown.esc="changeAmount = false"
+            v-model="inputAmount"
+          />
         </div>
       </span>
     </td>
-    <td class="text-right d-none d-print-table-cell">
+    <td
+      class="text-right"
+      :class="{ 'd-none': isCartMode, 'd-print-table-cell': isCartMode }"
+    >
       {{ product.unit }}
     </td>
-    <td class="text-right d-none d-print-table-cell">
-      {{ priceEach | money }} <!-- with discount -->
+    <td
+      class="text-right"
+      :class="{ 'd-none': isCartMode, 'd-print-table-cell': isCartMode }"
+    >
+      {{ priceEach | money }}
+      <!-- with discount -->
     </td>
     <td class="text-right text-nowrap">
-      <span v-show="!changePrice" @click="changePrice = false"> <!-- disable change price -->
+      <span v-show="!changePrice" @click="changePrice = false">
+        <!-- disable change price -->
         {{ salePrice | money }}
       </span>
       <span v-show="changePrice">
         <div class="d-print-none">
-          <input type="number" id="cart-item-price" @blur="updatePrice" @keydown.enter="updatePrice"
-            @keydown.esc="changePrice = false" v-model="inputPrice" />
+          <input
+            type="number"
+            id="cart-item-price"
+            @blur="updatePrice"
+            @keydown.enter="updatePrice"
+            @keydown.esc="changePrice = false"
+            v-model="inputPrice"
+          />
         </div>
       </span>
     </td>
@@ -54,7 +82,10 @@
 
 <script>
 export default {
-  props: ["product"],
+  props: {
+    product: Object,
+    mode: String
+  },
   data: () => ({
     changeAmount: false,
     changePrice: false,
@@ -62,6 +93,12 @@ export default {
     inputPrice: 0
   }),
   computed: {
+    isCartMode() {
+      return this.mode == "cart";
+    },
+    isInvoiceMode() {
+      return this.mode == "invoice";
+    },
     discount() {
       return this.product.discount / 100;
     },
@@ -94,6 +131,11 @@ export default {
     }
   },
   methods: {
+    changeAmountValidator() {
+      if (this.isCartMode) {
+        changeAmount = true
+      }
+    },
     updateAmount() {
       if (this.changeAmount) {
         this.changeAmount = false;
@@ -127,11 +169,11 @@ export default {
   outline: none;
 }
 
-.sub-description>td:first-child {
+.sub-description > td:first-child {
   width: 185px;
 }
 
-.sub-description>td {
+.sub-description > td {
   padding: 0;
 }
 </style>

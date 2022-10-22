@@ -3,7 +3,7 @@
     <print-invoice-header />
     <b-row>
       <product-container />
-      <cart-container />
+      <cart-container mode="cart"/>
     </b-row>
   </div>
 </template>
@@ -15,14 +15,6 @@ import PrintInvoiceHeader from "@/components/Header/PrintInvoiceHeader.vue";
 
 export default {
   name: "Shop",
-  computed: {
-    invoiceNumber() {
-      return this.$store.state.invoiceInfo.invoiceNumber;
-    },
-    date() {
-      return this.$store.state.invoiceInfo.date;
-    }
-  },
   components: {
     ProductContainer,
     CartContainer,
