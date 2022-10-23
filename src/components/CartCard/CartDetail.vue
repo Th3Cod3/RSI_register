@@ -133,7 +133,7 @@ export default {
   methods: {
     changeAmountValidator() {
       if (this.isCartMode) {
-        changeAmount = true
+        this.changeAmount = true
       }
     },
     updateAmount() {
