@@ -16,9 +16,9 @@
           <b-row>
             <b-col md="12" lg="6" class="px-5">
               <b-table-simple hover small responsive>
-                <b-tr v-if="product.meta_data || product.meta_data.item_no">
+                <b-tr v-if="product.meta_data || product.meta_data?.item_no">
                   <b-th>No</b-th>
-                  <b-td class="text-right">{{ product.meta_data.item_no }}</b-td>
+                  <b-td class="text-right">{{ product.meta_data?.item_no }}</b-td>
                 </b-tr>
                 <b-tr>
                   <b-th>Name</b-th>
